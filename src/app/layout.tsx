@@ -1,5 +1,5 @@
 import React from "react";
-// import '@/styles/style.scss';
+import '@/styles/style.scss';
 
 export default function RootLayout({children}: { children: React.ReactNode }) {
 
