@@ -1,6 +1,8 @@
 "use client"
 import {useState, useEffect} from "react";
+import Link from "next/link";
 import ClientRegisterModal from "@/components/ClientModal";
+
 
 // 공통 타입 정의
 interface Client {
@@ -81,8 +83,11 @@ export default function ClientList() {
               </button>
             </div>
             <div className="client-info">
-              <h3>{client.name}</h3>
+              <Link href={`/client-detail/${encodeURIComponent(client.name.replace(/\s/g, "-"))}`} passHref>
+                <h3>{client.name}</h3>
+              </Link>
             </div>
+
           </li>
         ))}
       </ul>

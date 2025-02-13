@@ -1,0 +1,19 @@
+@use "../abstracts" as *;
+@use "../base" as *;
+@use "../components" as *;
+
+.layout-half {
+  display: flex;
+  height: 100%;
+
+  .input-group {
+    width: 50%;
+    background-color: #8b98a7;
+  }
+
+  .viewer-group {
+    width: 50%;
+    padding: 8px 12px;
+    box-sizing: border-box;
+  }
+}
