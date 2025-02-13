@@ -1,2 +1,39 @@
 @use "../abstracts" as *;
 @use "../base" as *;
+
+
+/* 버튼 */
+button {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+}
+
+/* 기본 버튼 */
+button.default {
+  width: 100%;
+  font-size: 15px;
+  padding: 15px 40px;
+  border: 1px solid $bg-navy;
+  background-color: transparent;
+  color: $bg-navy;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: $bg-navy;
+    color: $font-white;
+  }
+
+  &.navy {
+    background-color: $bg-navy;
+    color: $font-white;
+
+    &:hover {
+      background-color: transparent;
+      color: $bg-navy;
+    }
+  }
+}
+
+;

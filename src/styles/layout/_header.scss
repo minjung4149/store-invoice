@@ -1,0 +1,29 @@
+@use "../abstracts" as *;
+@use "../base" as *;
+@use "../components" as *;
+
+header {
+  @include top-fix;
+  height: 80px;
+
+  .header_wrapper {
+    @include flex-center-between;
+    padding: 15px;
+    border-bottom: 1px solid #111;
+    background-color: $bg-white;
+
+    h1 {
+      font-size: 32px;
+      font-weight: $bold;
+    }
+
+    .btn-area {
+      @include flex-a-start;
+      gap: 20px;
+
+      button {
+        width: fit-content;
+      }
+    }
+  }
+}

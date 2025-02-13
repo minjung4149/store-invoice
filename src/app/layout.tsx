@@ -13,7 +13,7 @@ export default function RootLayout({children}: { children: React.ReactNode }) {
       <meta name="description"
             content=""/>
     </head>
-    <body>
+    <body className="site">
     {children}
     </body>
     </html>
