@@ -162,7 +162,6 @@ const InvoiceTemplate = ({invoiceData, clientName}: InvoiceTemplateProps) => {
             <span className="summary-value">{totalAmount.toLocaleString()} 원</span>
           </p>
           <hr className="divider"/>
-          {/*<p><span>입금:</span> <span className="summary-value">{invoiceData.payment.toLocaleString()} 원</span></p>*/}
           <p>
             <span>입금:</span>
             <span className="summary-value">
@@ -178,8 +177,6 @@ const InvoiceTemplate = ({invoiceData, clientName}: InvoiceTemplateProps) => {
             <span className="summary-value">{balance.toLocaleString()} 원</span>
           </p>
           <hr className="divider"/>
-          {/*<p><span>비고:</span> <span className="summary-value">{invoiceData.note ? invoiceData.note : "-"}</span></p>
-        */}
           <p>
             <span>비고:</span>
             <span className="summary-value">
