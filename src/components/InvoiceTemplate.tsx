@@ -132,7 +132,7 @@ const InvoiceTemplate = ({invoiceData, clientName}: InvoiceTemplateProps) => {
         </p>
         <hr className="divider"/>
         <p>
-          <span>잔액:</span>
+          <span>잔금:</span>
           <span className="summary-value">{balance.toLocaleString()} 원</span>
         </p>
         <hr className="divider"/>
