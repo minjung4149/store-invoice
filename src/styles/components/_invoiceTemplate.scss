@@ -167,7 +167,6 @@
         text-align: left;
       }
 
-      /* ✅ 오른쪽 내용이 많아져도 정렬 유지 */
       .summary-value {
         flex: 1;
         word-break: break-word;
@@ -186,10 +185,4 @@
     font-size: 14px;
     margin-top: 10px;
   }
-}
-
-.divider {
-  border: none;
-  border-top: 1px solid #ddd;
-  margin: 10px 0;
 }

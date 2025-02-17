@@ -14,7 +14,7 @@ const Header = () => {
             <h1>테스트</h1>
           </Link>
           <div className="btn-area">
-            <button className="navy default" onClick={() => setIsRegisterModalOpen(true)}>
+            <button className="primary default" onClick={() => setIsRegisterModalOpen(true)}>
               신규 거래처 등록
             </button>
             <button className="default">거래처 잔금 확인</button>

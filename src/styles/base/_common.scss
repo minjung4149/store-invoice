@@ -88,3 +88,14 @@ img {
 .under-line {
   @include custom-under-line;
 }
+
+.divider {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 10px 0;
+
+  &.narrow {
+    margin: 5px 0;
+  }
+}
+

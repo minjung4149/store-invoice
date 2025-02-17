@@ -101,7 +101,7 @@
   vertical-align: middle;
 }
 
-@mixin custom-under-line($color: #1e92ff33) {
+@mixin custom-under-line($color: #D4EDFF) {
   background-image: linear-gradient($color, $color);
   background-repeat: no-repeat;
   background-position: 0 100%;
@@ -131,3 +131,32 @@ $breakpoints: (
 //@include respond-to(large) {
 //  gap: 20px;
 //}
+
+
+// 컬러
+@mixin bg-primary {
+  background-color: $bg-primary;
+  color: $font-white;
+  border: 1px solid $bg-primary;
+}
+
+@mixin line-primary {
+  background-color: $bg-white;
+  color: $font-primary;
+  border: 1px solid $bg-primary;
+}
+
+@mixin secondary {
+  background-color: #4A5568;
+  border: 1px solid #4A5568;
+  color: $font-white;
+}
+
+// 작성 폼
+@mixin input-style {
+  border: 1px solid #ccc;
+  padding: 10px 12px;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}

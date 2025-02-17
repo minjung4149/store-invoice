@@ -1,260 +1,28 @@
 @use "../abstracts" as *;
 @use "../base" as *;
 
-//.input-group {
-//  display: flex;
-//  flex-direction: column;
-//  gap: 10px;
-//  padding: 15px;
-//  position: relative;
-//
-//  h3 {
-//    font-size: 18px;
-//    font-weight: bold;
-//    margin-bottom: 10px;
-//  }
-//
-//  .invoice-number {
-//    font-size: 14px;
-//    font-weight: bold;
-//    color: #555;
-//    margin-bottom: 5px;
-//  }
-//
-//  /* 반영 하기 버튼을 오른쪽 상단에 배치 */
-//  .action-buttons {
-//    position: absolute;
-//    right: 10px;
-//    top: 10px;
-//
-//    button {
-//      border: none;
-//      padding: 8px 12px;
-//      border-radius: 4px;
-//      font-size: 14px;
-//      font-weight: bold;
-//      cursor: pointer;
-//    }
-//
-//    .inactive {
-//      background-color: #ccc;
-//      color: white;
-//    }
-//
-//    .active {
-//      background-color: #007bff;
-//      color: white;
-//    }
-//  }
-//
-//
-//  /* 날짜 입력 */
-//  .date-group {
-//    display: flex;
-//    align-items: center;
-//    gap: 5px;
-//
-//    .year {
-//      font-size: 16px;
-//      font-weight: bold;
-//    }
-//
-//    input {
-//      width: 40px;
-//      text-align: center;
-//      border: 1px solid #ccc;
-//      padding: 5px;
-//      border-radius: 4px;
-//      font-size: 14px;
-//
-//      &.error-border {
-//        border: 2px solid red;
-//      }
-//
-//      &:focus,
-//      &:not(:placeholder-shown) {
-//        border: 1px solid #ccc;
-//      }
-//    }
-//  }
-//
-//  /* 품목 입력 헤더 */
-//  .input-header {
-//    display: flex;
-//    align-items: center;
-//    gap: 10px;
-//    font-weight: bold;
-//    padding: 5px 0;
-//    border-bottom: 2px solid #ccc;
-//
-//    span {
-//      text-align: center;
-//      flex-grow: 1;
-//    }
-//  }
-//
-//  /* 개별 품목 입력 */
-//  .input-row {
-//    display: flex;
-//    align-items: center;
-//    gap: 10px;
-//
-//    span {
-//      width: 30px;
-//      text-align: center;
-//      font-weight: bold;
-//    }
-//
-//    input {
-//      flex: 1;
-//      padding: 8px;
-//      border: 1px solid #ccc;
-//      border-radius: 4px;
-//      font-size: 14px;
-//
-//      &.quantity,
-//      &.price {
-//        width: 100px;
-//        text-align: right;
-//      }
-//
-//      &.error-border {
-//        border: 2px solid red !important;
-//      }
-//    }
-//
-//    .remove-btn {
-//      background-color: #dc3545;
-//      color: white;
-//      border: none;
-//      padding: 5px 8px;
-//      border-radius: 4px;
-//      cursor: pointer;
-//      font-size: 14px;
-//
-//      &:hover {
-//        background-color: #b02a37;
-//      }
-//    }
-//  }
-//
-//  /* 입금액 */
-//  .payment-group {
-//    display: flex;
-//    align-items: center;
-//    gap: 10px;
-//    font-weight: bold;
-//
-//    input {
-//      width: 120px;
-//      padding: 8px;
-//      border: 1px solid #ccc;
-//      border-radius: 4px;
-//      font-size: 14px;
-//      text-align: right;
-//
-//      &.error-border {
-//        border: 2px solid red;
-//      }
-//    }
-//  }
-//
-//  /* 추가 버튼 */
-//  .add-item {
-//    width: 100%;
-//    background-color: #007bff;
-//    color: white;
-//    border: none;
-//    padding: 8px;
-//    border-radius: 4px;
-//    font-size: 14px;
-//    cursor: pointer;
-//    margin-top: 10px;
-//  }
-//}
-//
-//.fruit-options {
-//  background-color: #fff;
-//  width: 45%;
-//  position: fixed;
-//  bottom: 0;
-//  right: 20px;
-//  display: flex;
-//  flex-wrap: wrap;
-//  gap: 10px;
-//  margin-bottom: 10px;
-//  padding: 10px;
-//  border: 1px solid #ddd;
-//  z-index: 100;
-//}
-//
-//.fruit-category {
-//  display: flex;
-//  align-items: center;
-//  gap: 12px;
-//  padding: 6px 10px;
-//  border-radius: 6px;
-//  border: 1px solid #ddd;
-//
-//  h4 {
-//    font-size: 15px;
-//    font-weight: bold;
-//    color: #333;
-//    white-space: nowrap;
-//  }
-//
-//  .fruit-buttons {
-//    display: flex;
-//    flex-wrap: wrap;
-//    gap: 8px;
-//
-//    button {
-//      padding: 4px 8px;
-//      border: none;
-//      background-color: #e9ecef;
-//      border-radius: 4px;
-//      cursor: pointer;
-//      font-size: 16px;
-//    }
-//  }
-//}
-//
-///* 과일 목록 보기 버튼 */
-//.toggle-fruit-btn {
-//  margin-bottom: 10px;
-//  padding: 8px 12px;
-//  font-size: 14px;
-//  border-radius: 4px;
-//  background-color: #eee;
-//}
-//
-///* 닫기 버튼 */
-//.close-btn {
-//  position: absolute;
-//  top: 5px;
-//  right: 5px;
-//  border: none;
-//  background: #dc3545;
-//  color: white;
-//  font-size: 14px;
-//  padding: 3px 6px;
-//  cursor: pointer;
-//  border-radius: 4px;
-//}
-
 .input-group {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 15px;
+  padding: 15px 15px 20px;
   position: relative;
 
-  h3 {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
+  /* 폼 공통 */
+  input, textarea {
+    @include input-style;
+
+    &.error-border {
+      border: 1px solid red !important;
+    }
+
+    &:focus,
+    &:not(:placeholder-shown) {
+      border: 1px solid #ccc;
+    }
   }
 
+  /* 영수증 번호 */
   .invoice-number {
     font-size: 14px;
     font-weight: bold;
@@ -265,25 +33,21 @@
   /* 반영하기 버튼 */
   .action-buttons {
     position: absolute;
+    top: 12px;
     right: 10px;
-    top: 10px;
 
     button {
-      border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
+      padding: 10px 14px;
       font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
+      font-weight: 600;
 
       &.inactive {
-
-        border: 1px solid #000;
+        @include line-primary;
+        color: #13141B;
       }
 
       &.active {
-        background-color: #007bff;
-        color: white;
+        @include bg-primary;
       }
     }
   }
@@ -306,29 +70,15 @@
     input {
       width: 120px;
       text-align: right;
-      border: 1px solid #ccc;
-      padding: 8px 12px;
-      border-radius: 4px;
-      font-size: 16px;
-      box-sizing: border-box;
-
-      &.error-border {
-        border: 1px solid red;
-      }
-
-      &:focus,
-      &:not(:placeholder-shown) {
-        border: 1px solid #ccc;
-      }
     }
   }
 
+  /* 품목 입력 */
   .item-group {
     display: flex;
     flex-direction: column;
     gap: 10px;
 
-    /* 품목 입력 헤더 */
     .input-header {
       display: grid;
       grid-template-columns: 30px 1fr 1fr 1fr 30px;
@@ -360,55 +110,12 @@
 
       input {
         flex: 1;
-        padding: 10px 12px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 16px;
 
         &.quantity,
         &.price {
           width: 100px;
           text-align: right;
         }
-
-        &.error-border {
-          border: 2px solid red !important;
-        }
-      }
-
-      .remove-btn {
-        background: #dc3545;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
-        padding: 3px 6px;
-
-        &:hover {
-          background-color: #b02a37;
-        }
-      }
-    }
-  }
-
-  /* 입금액 */
-  .payment-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: bold;
-
-    input {
-      width: 200px;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 16px;
-      text-align: right;
-
-      &.error-border {
-        border: 2px solid red;
       }
     }
   }
@@ -416,101 +123,112 @@
   /* 추가 버튼 */
   .add-item {
     width: 100%;
-    background-color: #007bff;
-    color: white;
-    border: none;
     padding: 12px;
     font-size: 15px;
-    cursor: pointer;
     margin-top: 10px;
-  }
-}
-
-/* 과일 목록 */
-.fruit-options {
-  position: fixed;
-  bottom: 0;
-  right: 20px;
-  width: 45%;
-  background-color: #fff;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 10px;
-  z-index: 100;
-
-  /* 닫기 버튼 */
-  .close-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    border: none;
-    background: #dc3545;
-    color: white;
-    font-size: 14px;
-    padding: 3px 6px;
-    cursor: pointer;
-    border-radius: 4px;
+    transition: 0.1s ease-in-out;
+    @include line-primary;
 
     &:hover {
-      background: #b02a37;
+      @include bg-primary;
     }
   }
-}
 
-/* 과일 카테고리 */
-.fruit-category {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-
-  h4 {
-    font-size: 15px;
-    font-weight: bold;
-    color: #333;
-    white-space: nowrap;
-  }
-
-  .fruit-buttons {
+  /* 과일 목록 */
+  .fruit-options {
+    position: fixed;
+    bottom: 0;
+    right: 20px;
+    width: 45%;
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 10px;
+    margin-bottom: 10px;
+    z-index: 100;
 
-    button {
-      padding: 4px 8px;
-      border: none;
-      background-color: #f5f5f5;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: 0.1s ease-in-out;
+    /* 닫기 버튼 */
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
 
-      &:hover {
-        background-color: #28a745;
-        color: white;
+    /* 과일 카테고리 */
+    .fruit-category {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+
+      h4 {
+        font-size: 15px;
+        font-weight: bold;
+        color: #333;
+        white-space: nowrap;
+      }
+
+      .fruit-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+
+        button {
+          padding: 4px 8px;
+          border: none;
+          background-color: #f5f5f5;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 16px;
+          transition: 0.1s ease-in-out;
+
+          &:hover {
+            background-color: #28a745;
+            color: white;
+          }
+        }
       }
     }
   }
-}
 
-/* 과일 목록 보기 버튼 */
-.toggle-fruit-btn {
-  width: 200px;
-  padding: 10px 12px;
-  font-size: 16px;
-  border-radius: 4px;
-  border: 1px solid #000;
-}
+  /* 과일 목록 보기 버튼 */
+  .toggle-fruit-btn {
+    width: 200px;
+    padding: 10px 12px;
+    font-size: 16px;
+    font-weight: 500;
+    @include secondary;
+  }
 
-.divider {
-  border: none;
-  border-top: 1px solid #ddd;
-  margin: 10px 0;
+  /* 입금액 & 비고 입력 */
+  .payment-note-group {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+
+    label {
+      width: 50px;
+    }
+
+    input {
+      width: 200px;
+      text-align: right;
+    }
+
+    textarea {
+      font-family: $font;
+      width: 100%;
+      height: 100px;
+      resize: none;
+      text-align: left;
+    }
+  }
 }

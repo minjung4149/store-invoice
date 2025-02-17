@@ -51,7 +51,7 @@ export default function ClientRegisterModal({
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <button onClick={onClose} className="close-button">✕</button>
+        <button onClick={onClose} className="close-btn">✕</button>
         <div className="modal-header">
           <h2 className="under-line">{initialData ? "거래처 정보 수정" : "신규 거래처 등록"}</h2>
         </div>
@@ -70,7 +70,7 @@ export default function ClientRegisterModal({
           </div>
         </div>
         <div className="modal-footer">
-          <button className="default navy" onClick={handleSubmit}>
+          <button className="default primary" onClick={handleSubmit}>
             {initialData ? "수정 완료" : "등록"}
           </button>
         </div>

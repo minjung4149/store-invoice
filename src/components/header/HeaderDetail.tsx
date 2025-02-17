@@ -19,7 +19,7 @@ const HeaderDetail = ({clientName}: HeaderDetailProps) => {
               <button className="default">홈</button>
             </Link>
             <Link href="/" passHref>
-              <button className="default navy">거래처 내역 보기</button>
+              <button className="default primary">거래처 내역 보기</button>
             </Link>
           </div>
         </div>

@@ -23,7 +23,7 @@ interface ClientInputFormProps {
   setInvoiceData: React.Dispatch<React.SetStateAction<InvoiceData>>;
 }
 
-//과일 데이터
+// 과일 카테고리 데이터
 const fruitCategories: Record<string, string[]> = {
   사과: ["사과", "사과(부사)", "사과(홍로)", "사과(시나몬골드)", "사과(아오리)"],
   배: ["배", "배(신고)", "배(원황)"],
@@ -40,14 +40,23 @@ const fruitCategories: Record<string, string[]> = {
   기타: ["무화과", "블루베리", "멜론", "멜론(3)", "멜론(4)", "용과"],
 };
 
+// 숫자 포맷팅 함수 (천 단위 콤마 추가)
 const formatNumber = (value: string) => {
   return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
 const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
-  const currentYear = new Date().getFullYear().toString();
-  const initialItems = Array.from({length: 5}, () => ({name: "", quantity: "", price: "", total: ""}));
+  const currentYear = new Date().getFullYear().toString()
 
+  // 초기 항목 리스트 (5개 항목을 빈 값으로 생성)
+  const initialItems = Array.from({length: 5}, () => ({
+    name: "",
+    quantity: "",
+    price: "",
+    total: "",
+  }));
+
+  // 폼 데이터 상태
   const [formData, setFormData] = useState<InvoiceData>({
     invoiceNumber: "INVOICE-01",
     year: currentYear,
@@ -58,22 +67,28 @@ const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
     note: "",
   });
 
+  // 확인 여부 상태 (제출 후 true)
   const [isConfirmed, setIsConfirmed] = useState(false);
+
+  // 현재 포커스된 `input`의 index 저장
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null); // 현재 포커스된 `input`의 index 저장
+
+  // 과일 선택 모달 표시 여부
   const [showFruitOptions, setShowFruitOptions] = useState(false);
 
+  // 입력값 에러 상태 (항목별 유효성 검사)
   const [errors, setErrors] = useState<{ items: boolean[]; month: boolean; day: boolean }>({
     items: new Array(initialItems.length).fill(false),
     month: false,
     day: false,
   });
 
-// 🔹 포커스된 `input` 업데이트
+  // `input` 포커스 핸들러 (현재 포커스된 `input`의 index를 설정)
   const handleFocus = (index: number) => {
     setFocusedIndex(index);
   };
 
-  // 🔹 과일 선택 (소분류 클릭 시)
+  // 과일 옵션 클릭 핸들러 (선택된 과일을 현재 포커스된 항목의 `name` 필드에 입력)
   const handleFruitClick = (fruit: string) => {
     if (focusedIndex === null) return; // 포커스된 input이 없으면 실행 안 함
 
@@ -85,6 +100,7 @@ const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
     });
   };
 
+  // 일반 입력 필드 변경 핸들러 (숫자 입력값은 `formatNumber` 적용)
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = e.target;
     setFormData((prev) => ({
@@ -93,6 +109,7 @@ const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
     }));
   };
 
+  // 개별 항목 변경 핸들러 (수량과 가격 변경 시 `total` 자동 계산)
   const handleItemChange = (index: number, field: keyof InvoiceItem, value: string) => {
     const formattedValue = field === "quantity" || field === "price" ? formatNumber(value) : value;
 
@@ -119,6 +136,7 @@ const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
     });
   };
 
+  // 항목 삭제 핸들러
   const handleRemoveItem = (index: number) => {
     setFormData((prev) => ({
       ...prev,
@@ -131,6 +149,7 @@ const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
     }));
   };
 
+  // 항목 추가 핸들러
   const handleAddItem = () => {
     setFormData((prev) => ({
       ...prev,
@@ -143,6 +162,7 @@ const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
     }));
   };
 
+  // 폼 제출 핸들러 (입력값 검증 후 `setInvoiceData` 호출)
   const handleSubmit = () => {
     const monthError = !formData.month.trim();
     const dayError = !formData.day.trim();
@@ -166,14 +186,17 @@ const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
 
   return (
     <>
+      {/*영수증 번호*/}
       <div className="invoice-number">영수증 번호: {formData.invoiceNumber}</div>
 
+      {/*반영하기 버튼*/}
       <div className="action-buttons">
         <button className={isConfirmed ? "active" : "inactive"} onClick={handleSubmit}>
           반영하기
         </button>
       </div>
 
+      {/*날짜 입력*/}
       <div className="date-group">
         <span className="year">{formData.year}년</span>
         <input
@@ -198,12 +221,12 @@ const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
         <span>일</span>
       </div>
 
-      <hr className="divider"/>
-
+      <hr className="divider narrow"/>
       <button className="toggle-fruit-btn" onClick={() => setShowFruitOptions(!showFruitOptions)}>
         {showFruitOptions ? "과일 목록 닫기" : "과일 목록 보기"}
       </button>
 
+      {/*과일 목록 모달*/}
       {showFruitOptions && (
         <div className="fruit-options">
           <button className="close-btn" onClick={() => setShowFruitOptions(false)}>✕</button>
@@ -221,7 +244,9 @@ const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
           ))}
         </div>
       )}
-      <hr className="divider"/>
+      <hr className="divider narrow"/>
+
+      {/*품목 입력*/}
       <div className=" item-group">
         <div className="input-header">
           <span className="left">No.</span>
@@ -262,16 +287,28 @@ const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
 
         <button className="add-item" onClick={handleAddItem}>+ 품목 추가</button>
       </div>
-
       <hr className="divider"/>
 
-      <div className="payment-group">
+      {/*입금액 & 비고 입력*/}
+      <div className="payment-note-group">
         <label>입금액</label>
-        <input type="text" name="payment" placeholder="입금액" value={formData.payment} onChange={handleInputChange}/>
+        <input
+          type="text"
+          name="payment"
+          placeholder="입금액"
+          value={formData.payment}
+          onChange={handleInputChange}
+        />
       </div>
-
-      <label>비고</label>
-      <textarea name="note" placeholder="비고" value={formData.note} onChange={handleInputChange}/>
+      <div className="payment-note-group">
+        <label>비고</label>
+        <textarea
+          name="note"
+          placeholder="비고"
+          value={formData.note}
+          onChange={handleInputChange}
+        />
+      </div>
     </>
   );
 };

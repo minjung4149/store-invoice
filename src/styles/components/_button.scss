@@ -14,26 +14,33 @@ button {
 button.default {
   width: 100%;
   font-size: 15px;
+  font-weight: 500;
   padding: 15px 40px;
-  border: 1px solid $bg-navy;
-  background-color: transparent;
-  color: $bg-navy;
   transition: 0.2s;
+  @include line-primary;
 
   &:hover {
-    background-color: $bg-navy;
-    color: $font-white;
+    @include bg-primary;
   }
 
-  &.navy {
-    background-color: $bg-navy;
-    color: $font-white;
+  &.primary {
+    @include bg-primary;
 
     &:hover {
-      background-color: transparent;
-      color: $bg-navy;
+      @include line-primary;
     }
   }
 }
 
-;
+/* 닫기 버튼 공통 */
+.remove-btn, .close-btn {
+  background: #E53E3E;
+  color: $font-white;
+  font-size: 14px;
+  padding: 3px 6px;
+  border-radius: 4px;
+
+  &:hover {
+    background: #b02a37;
+  }
+}
