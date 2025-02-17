@@ -45,8 +45,63 @@ const formatNumber = (value: string) => {
   return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
+const convertToKoreanCurrency = (num: number): string => {
+  if (num === 0) return "원";
+
+  const numberText = ["", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"];
+  const unitText = ["", "십", "백", "천"];
+  const bigUnitText = ["", "만", "억", "조"];
+
+  let result = "";
+  let unitIndex = 0;
+  let bigUnitIndex = 0;
+  let chunk = "";
+
+  while (num > 0) {
+    const digit = num % 10;
+    if (digit !== 0) {
+      let word = numberText[digit] + unitText[unitIndex];
+
+      // '일십' → '십' 처리 (단, 만/억/조 단위에서는 '일' 유지)
+      if (digit === 1 && unitIndex === 1) {
+        word = "십";
+      }
+
+      chunk = word + chunk;
+    }
+
+    unitIndex++;
+
+    if (unitIndex > 3) {
+      unitIndex = 0;
+
+      // 현재 자리수(천 이하)가 비어있지 않다면, 큰 단위(만, 억 등) 추가
+      if (chunk !== "") {
+        result = chunk + bigUnitText[bigUnitIndex] + " " + result;
+      }
+
+      chunk = "";
+      bigUnitIndex++;
+    }
+
+    num = Math.floor(num / 10);
+  }
+
+  // 남아 있는 chunk 처리 (예: "오백만")
+  if (chunk !== "") {
+    result = chunk + bigUnitText[bigUnitIndex] + " " + result;
+  }
+
+  return result.replace(/\s+/g, "").trim() + " 원"; // 공백 정리
+};
+
+
 const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
-  const currentYear = new Date().getFullYear().toString()
+  // const currentYear = new Date().getFullYear().toString()
+  const today = new Date();
+  const currentYear = today.getFullYear().toString();
+  const currentMonth = (today.getMonth() + 1).toString().padStart(2, "0");
+  const currentDay = today.getDate().toString().padStart(2, "0");
 
   // 초기 항목 리스트 (5개 항목을 빈 값으로 생성)
   const initialItems = Array.from({length: 5}, () => ({
@@ -60,8 +115,8 @@ const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
   const [formData, setFormData] = useState<InvoiceData>({
     invoiceNumber: "INVOICE-01",
     year: currentYear,
-    day: "",
-    month: "",
+    month: currentMonth,
+    day: currentDay,
     items: initialItems,
     payment: "",
     note: "",
@@ -185,18 +240,18 @@ const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
   };
 
   return (
-    <>
-      {/*영수증 번호*/}
+    <div className="invoice-form">
+      {/* 영수증 번호 */}
       <div className="invoice-number">영수증 번호: {formData.invoiceNumber}</div>
 
-      {/*반영하기 버튼*/}
+      {/* 반영하기 버튼 */}
       <div className="action-buttons">
         <button className={isConfirmed ? "active" : "inactive"} onClick={handleSubmit}>
           반영하기
         </button>
       </div>
 
-      {/*날짜 입력*/}
+      {/* 날짜 입력 */}
       <div className="date-group">
         <span className="year">{formData.year}년</span>
         <input
@@ -226,7 +281,7 @@ const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
         {showFruitOptions ? "과일 목록 닫기" : "과일 목록 보기"}
       </button>
 
-      {/*과일 목록 모달*/}
+      {/* 과일 목록 모달 */}
       {showFruitOptions && (
         <div className="fruit-options">
           <button className="close-btn" onClick={() => setShowFruitOptions(false)}>✕</button>
@@ -246,7 +301,7 @@ const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
       )}
       <hr className="divider narrow"/>
 
-      {/*품목 입력*/}
+      {/* 품목 입력 */}
       <div className=" item-group">
         <div className="input-header">
           <span className="left">No.</span>
@@ -289,8 +344,8 @@ const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
       </div>
       <hr className="divider"/>
 
-      {/*입금액 & 비고 입력*/}
-      <div className="payment-note-group">
+      {/* 입금액 & 비고 입력 */}
+      <div className="payment-group">
         <label>입금액</label>
         <input
           type="text"
@@ -299,8 +354,11 @@ const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
           value={formData.payment}
           onChange={handleInputChange}
         />
+        <span className="korean-number">
+    {convertToKoreanCurrency(parseInt(formData.payment.replace(/,/g, ""), 10) || 0)}
+        </span>
       </div>
-      <div className="payment-note-group">
+      <div className="note-group">
         <label>비고</label>
         <textarea
           name="note"
@@ -309,7 +367,13 @@ const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
           onChange={handleInputChange}
         />
       </div>
-    </>
+      {/* 추가 반영하기 버튼 */}
+      <div className="action-buttons-bottom">
+        <button className={isConfirmed ? "active" : "inactive"} onClick={handleSubmit}>
+          반영하기
+        </button>
+      </div>
+    </div>
   );
 };
 

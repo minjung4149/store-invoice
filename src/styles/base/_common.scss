@@ -1,11 +1,14 @@
 @use "../abstracts" as *;
 
+/* ----------------------
+공통
+---------------------- */
 html {
   width: 100%;
   height: 100%;
 }
 
-/* 타이포그래피 Typography */
+//타이포그래피 Typography
 body {
   width: 100%;
   height: 100%;
@@ -25,7 +28,7 @@ h1, h2, h3, h4, h5, h6, div p, a {
 }
 
 
-/* 레이아웃 */
+//레이아웃
 .site {
   min-height: 100vh;
   @include flex-column;
@@ -72,11 +75,12 @@ h1, h2, h3, h4, h5, h6, div p, a {
 }
 
 
-/* 이미지 */
+//이미지
 img {
   @include width-100;
 }
 
+//가로 너비
 .w-50 {
   width: 50%;
 }
@@ -85,10 +89,12 @@ img {
   width: 100%;
 }
 
+//밑줄 강조
 .under-line {
   @include custom-under-line;
 }
 
+//구분선
 .divider {
   border: none;
   border-top: 1px solid #ddd;

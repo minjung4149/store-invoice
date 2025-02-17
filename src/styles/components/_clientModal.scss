@@ -1,7 +1,9 @@
 @use "../abstracts" as *;
 @use "../base" as *;
 
-/* 거래처 모달 */
+/* ----------------------
+거래처 등록 및 수정 모달
+---------------------- */
 .modal-overlay {
   position: fixed;
   top: 0;

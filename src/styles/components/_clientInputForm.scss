@@ -1,14 +1,17 @@
 @use "../abstracts" as *;
 @use "../base" as *;
 
-.input-group {
+/* ----------------------
+영수증 입력 폼
+---------------------- */
+.invoice-form {
   display: flex;
   flex-direction: column;
   gap: 10px;
   padding: 15px 15px 20px;
   position: relative;
 
-  /* 폼 공통 */
+  //폼 공통
   input, textarea {
     @include input-style;
 
@@ -22,7 +25,7 @@
     }
   }
 
-  /* 영수증 번호 */
+  //영수증 번호
   .invoice-number {
     font-size: 14px;
     font-weight: bold;
@@ -30,7 +33,7 @@
     margin-bottom: 5px;
   }
 
-  /* 반영하기 버튼 */
+  //반영하기 버튼
   .action-buttons {
     position: absolute;
     top: 12px;
@@ -52,7 +55,7 @@
     }
   }
 
-  /* 날짜 입력 */
+  //날짜 입력
   .date-group {
     display: flex;
     align-items: center;
@@ -73,7 +76,7 @@
     }
   }
 
-  /* 품목 입력 */
+  //품목 입력
   .item-group {
     display: flex;
     flex-direction: column;
@@ -120,7 +123,7 @@
     }
   }
 
-  /* 추가 버튼 */
+  //추가 버튼
   .add-item {
     width: 100%;
     padding: 12px;
@@ -134,7 +137,7 @@
     }
   }
 
-  /* 과일 목록 */
+  //과일 목록
   .fruit-options {
     position: fixed;
     bottom: 0;
@@ -197,7 +200,7 @@
     }
   }
 
-  /* 과일 목록 보기 버튼 */
+  //과일 목록 보기 버튼
   .toggle-fruit-btn {
     width: 200px;
     padding: 10px 12px;
@@ -206,22 +209,29 @@
     @include secondary;
   }
 
-  /* 입금액 & 비고 입력 */
-  .payment-note-group {
+  //입금액 & 비고 입력
+  .payment-group, .note-group {
     display: grid;
-    grid-template-columns: 50px 1fr;
     align-items: center;
     gap: 10px;
     font-weight: bold;
+  }
 
-    label {
-      width: 50px;
-    }
+  .payment-group {
+    grid-template-columns: 50px 200px auto;
 
     input {
       width: 200px;
-      text-align: right;
+      text-align: left;
     }
+
+    .korean-number {
+      font-weight: 600;
+    }
+  }
+
+  .note-group {
+    grid-template-columns: 50px 1fr;
 
     textarea {
       font-family: $font;
@@ -229,6 +239,28 @@
       height: 100px;
       resize: none;
       text-align: left;
+    }
+  }
+}
+
+//반영하기 버튼
+.action-buttons-bottom {
+  width: 100%;
+  margin-top: 12px;
+
+  button {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-weight: 600;
+
+    &.inactive {
+      @include line-primary;
+      color: #13141B;
+    }
+
+    &.active {
+      @include bg-primary;
     }
   }
 }

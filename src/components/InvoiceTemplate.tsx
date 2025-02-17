@@ -24,6 +24,21 @@ interface InvoiceTemplateProps {
 }
 
 const InvoiceTemplate = ({invoiceData, clientName}: InvoiceTemplateProps) => {
+  // 소계 계산 (각 품목의 total 값을 숫자로 변환 후 합산)
+  const subtotal = invoiceData.items.reduce((sum, item) => {
+    return sum + (parseInt(item.total.replace(/,/g, ""), 10) || 0);
+  }, 0);
+
+  // 전잔금 (기본값 0, 추후 DB에서 받아올 예정)
+  const previousBalance = 0;
+
+  // 합계 (소계 + 전잔금)
+  const totalAmount = subtotal + previousBalance;
+
+  // 잔액 (합계 - 입금)
+  const balance =
+    totalAmount - (parseInt(invoiceData.payment.replace(/,/g, ""), 10) || 0);
+
 
   return (
     <div className="invoice">
@@ -88,30 +103,61 @@ const InvoiceTemplate = ({invoiceData, clientName}: InvoiceTemplateProps) => {
       {/* 구분선 */}
       <hr className="divider"/>
 
-      {/* ✅ 거래 요약 */}
+      {/* 거래 요약 */}
       <div className="invoice-summary">
-        <p><span>소계:</span> <span className="summary-value">원</span></p>
+        <p>
+          <span>소계:</span>
+          <span className="summary-value">{subtotal.toLocaleString()} 원</span>
+        </p>
         <hr className="divider"/>
-        <p><span>전잔금:</span> <span className="summary-value">원</span></p>
+        <p>
+          <span>전잔금:</span>
+          <span className="summary-value">{previousBalance.toLocaleString()} 원</span>
+        </p>
         <hr className="divider"/>
-        <p><span>합계:</span> <span className="summary-value"> 원</span></p>
+        <p>
+          <span>합계:</span>
+          <span className="summary-value">{totalAmount.toLocaleString()} 원</span>
+        </p>
         <hr className="divider"/>
-        <p><span>입금:</span> <span className="summary-value">{invoiceData.payment.toLocaleString()} 원</span></p>
+        {/*<p><span>입금:</span> <span className="summary-value">{invoiceData.payment.toLocaleString()} 원</span></p>*/}
+        <p>
+          <span>입금:</span>
+          <span className="summary-value">
+            {invoiceData.payment
+              ? parseInt(invoiceData.payment.replace(/,/g, ""), 10).toLocaleString()
+              : "0"}{" "}
+            원
+          </span>
+        </p>
         <hr className="divider"/>
-        <p><span>잔액:</span> <span className="summary-value"> 원</span></p>
+        <p>
+          <span>잔액:</span>
+          <span className="summary-value">{balance.toLocaleString()} 원</span>
+        </p>
         <hr className="divider"/>
-        <p><span>비고:</span> <span className="summary-value">{invoiceData.note ? invoiceData.note : "-"}</span></p>
+        {/*<p><span>비고:</span> <span className="summary-value">{invoiceData.note ? invoiceData.note : "-"}</span></p>
+        */}
+        <p>
+          <span>비고:</span>
+          <span className="summary-value">
+            {invoiceData.note ? invoiceData.note : "-"}
+          </span>
+        </p>
       </div>
 
-      {/* 구분선 */}
+      {/* 구분선 */
+      }
       <hr className="divider"/>
 
-      {/* 푸터 */}
+      {/* 푸터 */
+      }
       <div className="invoice-footer">
         <p>농협: 317-0003-6690-11 중앙영농(주)</p>
       </div>
     </div>
-  );
+  )
+    ;
 };
 
 export default InvoiceTemplate;

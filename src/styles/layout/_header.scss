@@ -2,6 +2,9 @@
 @use "../base" as *;
 @use "../components" as *;
 
+/* ----------------------
+헤더
+---------------------- */
 header {
   @include top-fix;
   height: 80px;
