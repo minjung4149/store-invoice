@@ -1,5 +1,5 @@
 "use client"
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import ClientRegisterModal from "@/components/ClientModal";
 
@@ -13,12 +13,12 @@ interface Client {
 }
 
 const initialClients: Client[] = [
-  {name: "ABC마트", phone: "010-1234-5678", note: "VIP 고객", isFavorite: false},
-  {name: "고객 고객 고객", phone: "010-9876-5432", note: "", isFavorite: false},
-  {name: "나이스 마트", phone: "010-1234-5678", note: "", isFavorite: false},
-  {name: "투썸플레이스", phone: "010-9876-5432", note: "", isFavorite: false},
-  {name: "늘푸른", phone: "010-1234-5678", note: "", isFavorite: false},
-  {name: "시지", phone: "010-9876-5432", note: "늘푸른과 가족관계", isFavorite: false},
+  { name: "ABC마트", phone: "010-1234-5678", note: "VIP 고객", isFavorite: false },
+  { name: "고객 고객 고객", phone: "010-9876-5432", note: "", isFavorite: false },
+  { name: "나이스 마트", phone: "010-1234-5678", note: "", isFavorite: false },
+  { name: "투썸플레이스", phone: "010-9876-5432", note: "", isFavorite: false },
+  { name: "늘푸른", phone: "010-1234-5678", note: "", isFavorite: false },
+  { name: "시지", phone: "010-9876-5432", note: "늘푸른과 가족관계", isFavorite: false },
 ];
 
 export default function ClientList() {
@@ -28,6 +28,12 @@ export default function ClientList() {
 
   // 최초 로딩 시 정렬 적용 (이름순 정렬)
   useEffect(() => {
+    fetchClients().then(clientList => {
+      setClients(
+        [...clientList].sort((a, b) => a.name.localeCompare(b.name, "ko-KR"))
+      );
+    });
+
     setClients(
       [...initialClients].sort((a, b) => a.name.localeCompare(b.name, "ko-KR"))
     );
@@ -43,7 +49,7 @@ export default function ClientList() {
   const handleRegisterClient = (updatedClient: Client) => {
     setClients((prev) =>
       [...prev.map((client) =>
-        client.name === updatedClient.name ? {...updatedClient, isFavorite: client.isFavorite} : client
+        client.name === updatedClient.name ? { ...updatedClient, isFavorite: client.isFavorite } : client
       )].sort((a, b) =>
         Number(b.isFavorite) - Number(a.isFavorite) || a.name.localeCompare(b.name, "ko-KR") // ✅ 정렬 수정
       )
@@ -55,12 +61,27 @@ export default function ClientList() {
   const toggleFavorite = (name: string) => {
     setClients((prev) =>
       [...prev.map((client) =>
-        client.name === name ? {...client, isFavorite: !client.isFavorite} : client
+        client.name === name ? { ...client, isFavorite: !client.isFavorite } : client
       )].sort((a, b) =>
         Number(b.isFavorite) - Number(a.isFavorite) || a.name.localeCompare(b.name, "ko-KR") // ✅ 정렬 수정
       )
     );
   };
+
+  async function fetchClients() {
+    try {
+      const response = await fetch('/api/client'); // API 엔드포인트 호출
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log('Clients:', data.clients);
+      return data.clients;
+    } catch (error) {
+      console.error('Error fetching clients:', error);
+      return [];
+    }
+  }
 
   return (
     <div className="client-list">
@@ -71,7 +92,7 @@ export default function ClientList() {
             <div className="client-action">
               {/* 수정 */}
               <button onClick={() => handleEditClick(client)}>
-                <img src="/images/edit.png" alt="수정"/>
+                <img src="/images/edit.png" alt="수정" />
               </button>
 
               {/* 즐겨찾기 */}
