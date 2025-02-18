@@ -41,7 +41,7 @@ export default function ClientList() {
       [...prev.map((client) =>
         client.name === updatedClient.name ? {...updatedClient, isFavorite: client.isFavorite} : client
       )].sort((a, b) =>
-        Number(b.isFavorite) - Number(a.isFavorite) || a.name.localeCompare(b.name, "ko-KR") // ✅ 정렬 수정
+        Number(b.isFavorite) - Number(a.isFavorite) || a.name.localeCompare(b.name, "ko-KR")
       )
     );
     setIsModalOpen(false);
@@ -53,7 +53,7 @@ export default function ClientList() {
       [...prev.map((client) =>
         client.name === name ? {...client, isFavorite: !client.isFavorite} : client
       )].sort((a, b) =>
-        Number(b.isFavorite) - Number(a.isFavorite) || a.name.localeCompare(b.name, "ko-KR") // ✅ 정렬 수정
+        Number(b.isFavorite) - Number(a.isFavorite) || a.name.localeCompare(b.name, "ko-KR")
       )
     );
   };

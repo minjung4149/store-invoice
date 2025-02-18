@@ -21,6 +21,7 @@ interface InvoiceData {
 interface ClientInputFormProps {
   invoiceData: InvoiceData;
   setInvoiceData: React.Dispatch<React.SetStateAction<InvoiceData>>;
+  setIsUpdated: React.Dispatch<React.SetStateAction<boolean>>; // 추가된 props
 }
 
 // 과일 카테고리 데이터
@@ -96,7 +97,7 @@ const convertToKoreanCurrency = (num: number): string => {
 };
 
 
-const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
+const ClientInputForm = ({setInvoiceData, setIsUpdated}: ClientInputFormProps) => {
   // const currentYear = new Date().getFullYear().toString()
   const today = new Date();
   const currentYear = today.getFullYear().toString();
@@ -237,6 +238,7 @@ const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
 
     setInvoiceData(formData);
     setIsConfirmed(true);
+    setIsUpdated(true);
   };
 
   return (
