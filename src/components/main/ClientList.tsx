@@ -2,10 +2,12 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import ClientRegisterModal from "@/components/main/ClientModal";
+import { updateClient, updateFavorite } from '@/utils/api';
 
 
 // 공통 타입 정의
 interface Client {
+  id: number | null;
   name: string;
   phone: string;
   note?: string;
@@ -13,8 +15,8 @@ interface Client {
 }
 
 const initialClients: Client[] = [
-  {name: "ABC마트", phone: "010-1234-5678", note: "VIP 고객", isFavorite: false},
-  {name: "나이스 마트", phone: "010-1234-5678", note: "", isFavorite: true},
+  {id:1, name: "ABC마트", phone: "010-1234-5678", note: "VIP 고객", isFavorite: false},
+  {id:2, name: "나이스 마트", phone: "010-1234-5678", note: "", isFavorite: true},
 ];
 
 export default function ClientList() {
@@ -42,26 +44,42 @@ export default function ClientList() {
   };
 
   // 거래처 수정 (모달에서 입력 후 저장)
-  const handleRegisterClient = (updatedClient: Client) => {
+  const handleRegisterClient = async (updatedClient: Client) => {
     setClients((prev) =>
       [...prev.map((client) =>
-        client.name === updatedClient.name ? { ...updatedClient, isFavorite: client.isFavorite } : client
+        client.id === updatedClient.id ? { ...updatedClient, isFavorite: client.isFavorite } : client
       )].sort((a, b) =>
         Number(b.isFavorite) - Number(a.isFavorite) || a.name.localeCompare(b.name, "ko-KR")
       )
     );
+    
+    try {
+      const updated = await updateClient(updatedClient);
+      console.log('Updated client:', updated);
+      alert('고객 정보가 갱신되었습니다.');
+    } catch (error) {
+      console.error('정보 갱신 실패:', error);
+      alert('고객 정보 갱신에 실패했습니다.');
+    }
     setIsModalOpen(false);
   };
 
   // 즐겨찾기 버튼 클릭 (별 아이콘 색상 변경 + 즐겨찾기 우선 정렬)
-  const toggleFavorite = (name: string) => {
+  const toggleFavorite = async (id: number, isFavorite: boolean) => {
     setClients((prev) =>
       [...prev.map((client) =>
-        client.name === name ? { ...client, isFavorite: !client.isFavorite } : client
+        client.id === id ? { ...client, isFavorite: !client.isFavorite } : client
       )].sort((a, b) =>
         Number(b.isFavorite) - Number(a.isFavorite) || a.name.localeCompare(b.name, "ko-KR")
       )
     );
+
+    try {
+      const updated = await updateFavorite({id, isFavorite:!isFavorite});
+      console.log('Updated client:', updated);
+    } catch (error) {
+      console.error('정보 갱신 실패:', error);
+    }
   };
 
   async function fetchClients() {
@@ -92,7 +110,7 @@ export default function ClientList() {
               </button>
 
               {/* 즐겨찾기 */}
-              <button onClick={() => toggleFavorite(client.name)}>
+              <button onClick={() => toggleFavorite(client.id ?? 0, client.isFavorite)}>
                 <img
                   src={client.isFavorite ? "/images/favorite-on.png" : "/images/favorite-off.png"}
                   alt="즐겨찾기"
