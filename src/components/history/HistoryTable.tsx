@@ -8,15 +8,15 @@ interface OrderData {
   balance: string;
 }
 
-interface OrderHistoryTableProps {
+interface HistoryTableProps {
   onSelectOrder: (order: OrderData) => void; // 선택된 주문을 부모 컴포넌트로 전달
 }
 
-const OrderHistoryTable: React.FC<OrderHistoryTableProps> = ({onSelectOrder}) => {
+const HistoryTable: React.FC<HistoryTableProps> = ({onSelectOrder}) => {
   const data: OrderData[] = [
-    {id: 3, date: "2025-02-10", total: "150000", balance: "30000"},
-    {id: 2, date: "2025-02-10", total: "150000", balance: "30000"},
-    {id: 1, date: "2025-02-10", total: "150000", balance: "30000"},
+    {id: 3, date: "2025-02-10 (수)", total: "150000", balance: "30000"},
+    {id: 2, date: "2025-02-10 (목)", total: "150000", balance: "30000"},
+    {id: 1, date: "2025-02-10 (토)", total: "150000", balance: "30000"},
   ];
 
   const itemsPerPage = 10;
@@ -101,4 +101,4 @@ const OrderHistoryTable: React.FC<OrderHistoryTableProps> = ({onSelectOrder}) =>
   );
 };
 
-export default OrderHistoryTable;
+export default HistoryTable;

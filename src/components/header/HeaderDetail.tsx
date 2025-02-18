@@ -21,20 +21,23 @@ const HeaderDetail = ({clientName}: HeaderDetailProps) => {
           </span>{clientName}</h2>
 
           <div className="btn-area">
-            <Link href="/" passHref>
-              <button className="default">홈</button>
+            <Link href="/" className="default">
+              홈
             </Link>
             {clientName && (
               <Link
-                href={isOrderHistoryPage ? `/client-detail/${formattedClientName}` : `/client-detail/${formattedClientName}/order-history`}
-                passHref
+                href={
+                  isOrderHistoryPage
+                    ? `/client-detail/${formattedClientName}`
+                    : `/client-detail/${formattedClientName}/order-history`
+                }
+                className="default primary"
               >
-                <button className="default primary">
-                  {isOrderHistoryPage ? "계산서 작성" : "거래 내역 보기"}
-                </button>
+                {isOrderHistoryPage ? "계산서 작성" : "거래 내역 보기"}
               </Link>
             )}
           </div>
+
         </div>
       </div>
     </header>

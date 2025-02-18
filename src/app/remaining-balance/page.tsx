@@ -1,17 +1,18 @@
+import React from 'react';
 import Header from "@/components/header/Header";
-import ClientList from "@/components/main/ClientList";
+import BalanceTable from "@/components/balance/BalanceTable";
 
-export default function Home() {
+const BalancePage = () => {
   return (
     <>
       <Header/>
       <main className="site-content">
         <div className="container">
           <div className="main-wrapper">
-            <section>
-              {/*고객 리스트*/}
-              <ClientList/>
-            </section>
+
+            <div className="balance-list">
+              <BalanceTable/>
+            </div>
           </div>
         </div>
       </main>
@@ -19,3 +20,4 @@ export default function Home() {
   );
 }
 
+export default BalancePage;

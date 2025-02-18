@@ -52,6 +52,7 @@ const InvoiceTemplate = ({invoiceData, clientName, isUpdated}: InvoiceTemplatePr
 
     console.log("확정 시 서버로 값 전송");
     setIsConfirmed(true);
+    alert("확정 처리되었습니다.");
   };
 
   return (

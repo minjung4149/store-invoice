@@ -1,7 +1,7 @@
 "use client"
 import {useState, useEffect} from "react";
 import Link from "next/link";
-import ClientRegisterModal from "@/components/ClientModal";
+import ClientRegisterModal from "@/components/main/ClientModal";
 
 
 // 공통 타입 정의

@@ -1,7 +1,7 @@
 "use client";
 import React, {useState} from 'react';
-import OrderHistoryTable from "@/components/OrderHistoryTable";
-import HistoryTemplate from "@/components/header/HistoryTemplate";
+import HistoryTable from "@/components/history/HistoryTable";
+import HistoryTemplate from "@/components/history/HistoryTemplate";
 
 const OrderHistoryPage = () => {
   const [selectedOrder, setSelectedOrder] = useState({
@@ -16,9 +16,9 @@ const OrderHistoryPage = () => {
       <main className="site-content">
         <div className="container">
           <div className="main-wrapper">
-            <div className="history">
+            <div className="order-history">
               {/* 주문 테이블에서 선택한 주문 데이터를 저장 */}
-              <OrderHistoryTable onSelectOrder={setSelectedOrder}/>
+              <HistoryTable onSelectOrder={setSelectedOrder}/>
               {/* 선택된 주문 정보 전달 */}
               <HistoryTemplate selectedOrder={selectedOrder}/>
             </div>

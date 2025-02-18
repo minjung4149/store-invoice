@@ -2,8 +2,8 @@
 import {useParams} from "next/navigation";
 import {useState} from "react";
 import HeaderDetail from "@/components/header/HeaderDetail";
-import ClientInputForm from "@/components/ClientInputForm";
-import InvoiceTemplate from "@/components/InvoiceTemplate";
+import ClientInputForm from "@/components/clientDetail/ClientInputForm";
+import InvoiceTemplate from "@/components/clientDetail/InvoiceTemplate";
 
 interface InvoiceItem {
   name: string;

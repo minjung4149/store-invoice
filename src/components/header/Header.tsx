@@ -1,7 +1,7 @@
 'use client';
 import {useState} from "react";
 import Link from "next/link";
-import ClientRegisterModal from "@/components/ClientModal";
+import ClientRegisterModal from "@/components/main/ClientModal";
 
 const Header = () => {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
@@ -17,7 +17,9 @@ const Header = () => {
             <button className="primary default" onClick={() => setIsRegisterModalOpen(true)}>
               신규 거래처 등록
             </button>
-            <button className="default">거래처 잔금 확인</button>
+            <Link href="/remaining-balance" className="default">
+              거래처 잔금 확인
+            </Link>
           </div>
         </div>
       </div>

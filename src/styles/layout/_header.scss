@@ -43,8 +43,10 @@ header {
       @include flex-a-start;
       gap: 20px;
 
-      button {
+      button, a {
         width: fit-content;
+        height: 50px;
+        box-sizing: border-box;
       }
     }
   }
