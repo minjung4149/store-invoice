@@ -14,11 +14,7 @@ interface Client {
 
 const initialClients: Client[] = [
   {name: "ABC마트", phone: "010-1234-5678", note: "VIP 고객", isFavorite: false},
-  {name: "고객 고객 고객", phone: "010-9876-5432", note: "", isFavorite: false},
-  {name: "나이스 마트", phone: "010-1234-5678", note: "", isFavorite: false},
-  {name: "투썸플레이스", phone: "010-9876-5432", note: "", isFavorite: false},
-  {name: "늘푸른", phone: "010-1234-5678", note: "", isFavorite: false},
-  {name: "시지", phone: "010-9876-5432", note: "늘푸른과 가족관계", isFavorite: false},
+  {name: "나이스 마트", phone: "010-1234-5678", note: "", isFavorite: true},
 ];
 
 export default function ClientList() {

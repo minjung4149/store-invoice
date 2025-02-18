@@ -1,11 +1,17 @@
 'use client';
 import Link from "next/link";
+import {usePathname} from "next/navigation";
 
 interface HeaderDetailProps {
   clientName: string;
 }
 
 const HeaderDetail = ({clientName}: HeaderDetailProps) => {
+  const pathname = usePathname();
+  // 공백을 하이픈(-)으로 변환
+  const formattedClientName = clientName.replace(/\s+/g, '-');
+  const isOrderHistoryPage = pathname.includes("/order-history");
+
   return (
     <header>
       <div className="container">
@@ -18,9 +24,16 @@ const HeaderDetail = ({clientName}: HeaderDetailProps) => {
             <Link href="/" passHref>
               <button className="default">홈</button>
             </Link>
-            <Link href="/" passHref>
-              <button className="default primary">거래처 내역 보기</button>
-            </Link>
+            {clientName && (
+              <Link
+                href={isOrderHistoryPage ? `/client-detail/${formattedClientName}` : `/client-detail/${formattedClientName}/order-history`}
+                passHref
+              >
+                <button className="default primary">
+                  {isOrderHistoryPage ? "계산서 작성" : "거래 내역 보기"}
+                </button>
+              </Link>
+            )}
           </div>
         </div>
       </div>
