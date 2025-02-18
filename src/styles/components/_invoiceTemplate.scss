@@ -118,21 +118,7 @@
 
   //품목 테이블
   .invoice-table {
-    width: 100%;
-    border-collapse: collapse;
     margin: 10px 0;
-
-    th, td {
-      font-size: 16px;
-      padding: 8px 12px;
-      text-align: center;
-      border: 1px solid #ddd;
-    }
-
-    th {
-      background-color: #f4f4f4;
-      font-weight: bold;
-    }
 
     td {
       &.no {
@@ -197,3 +183,4 @@
     margin-top: 10px;
   }
 }
+

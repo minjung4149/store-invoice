@@ -21,6 +21,7 @@ interface InvoiceData {
 interface ClientInputFormProps {
   invoiceData: InvoiceData;
   setInvoiceData: React.Dispatch<React.SetStateAction<InvoiceData>>;
+  setIsUpdated: React.Dispatch<React.SetStateAction<boolean>>; // 추가된 props
 }
 
 // 과일 카테고리 데이터
@@ -36,8 +37,8 @@ const fruitCategories: Record<string, string[]> = {
   오렌지: ["오렌지", "오렌지(56)", "오렌지(72)"],
   키위: ["키위(그린키위)", "키위(골드키위)"],
   바나나: ["바나나", "바나나(6)", "바나나(9)"],
-  수입: ["레몬", "석류", "아보카도", "자몽", "파인애플", "파인(골드)", "망고", "애플망고", "체리"],
-  기타: ["무화과", "블루베리", "멜론", "멜론(3)", "멜론(4)", "용과"],
+  수입: ["레몬", "석류", "아보카도", "자몽", "파인애플", "파인(골드)", "망고", "애플망고"],
+  기타: ["무화과", "체리", "블루베리", "멜론", "멜론(3)", "멜론(4)", "용과"],
 };
 
 // 숫자 포맷팅 함수 (천 단위 콤마 추가)
@@ -96,7 +97,7 @@ const convertToKoreanCurrency = (num: number): string => {
 };
 
 
-const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
+const ClientInputForm = ({setInvoiceData, setIsUpdated}: ClientInputFormProps) => {
   // const currentYear = new Date().getFullYear().toString()
   const today = new Date();
   const currentYear = today.getFullYear().toString();
@@ -237,6 +238,7 @@ const ClientInputForm = ({setInvoiceData}: ClientInputFormProps) => {
 
     setInvoiceData(formData);
     setIsConfirmed(true);
+    setIsUpdated(true);
   };
 
   return (

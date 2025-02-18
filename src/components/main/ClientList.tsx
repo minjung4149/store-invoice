@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import ClientRegisterModal from "@/components/ClientModal";
+import ClientRegisterModal from "@/components/main/ClientModal";
 
 
 // 공통 타입 정의
@@ -13,12 +13,8 @@ interface Client {
 }
 
 const initialClients: Client[] = [
-  { name: "ABC마트", phone: "010-1234-5678", note: "VIP 고객", isFavorite: false },
-  { name: "고객 고객 고객", phone: "010-9876-5432", note: "", isFavorite: false },
-  { name: "나이스 마트", phone: "010-1234-5678", note: "", isFavorite: false },
-  { name: "투썸플레이스", phone: "010-9876-5432", note: "", isFavorite: false },
-  { name: "늘푸른", phone: "010-1234-5678", note: "", isFavorite: false },
-  { name: "시지", phone: "010-9876-5432", note: "늘푸른과 가족관계", isFavorite: false },
+  {name: "ABC마트", phone: "010-1234-5678", note: "VIP 고객", isFavorite: false},
+  {name: "나이스 마트", phone: "010-1234-5678", note: "", isFavorite: true},
 ];
 
 export default function ClientList() {
@@ -51,7 +47,7 @@ export default function ClientList() {
       [...prev.map((client) =>
         client.name === updatedClient.name ? { ...updatedClient, isFavorite: client.isFavorite } : client
       )].sort((a, b) =>
-        Number(b.isFavorite) - Number(a.isFavorite) || a.name.localeCompare(b.name, "ko-KR") // ✅ 정렬 수정
+        Number(b.isFavorite) - Number(a.isFavorite) || a.name.localeCompare(b.name, "ko-KR")
       )
     );
     setIsModalOpen(false);
@@ -63,7 +59,7 @@ export default function ClientList() {
       [...prev.map((client) =>
         client.name === name ? { ...client, isFavorite: !client.isFavorite } : client
       )].sort((a, b) =>
-        Number(b.isFavorite) - Number(a.isFavorite) || a.name.localeCompare(b.name, "ko-KR") // ✅ 정렬 수정
+        Number(b.isFavorite) - Number(a.isFavorite) || a.name.localeCompare(b.name, "ko-KR")
       )
     );
   };

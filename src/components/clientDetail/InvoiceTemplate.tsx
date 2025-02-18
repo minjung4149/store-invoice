@@ -21,9 +21,10 @@ interface InvoiceData {
 interface InvoiceTemplateProps {
   invoiceData: InvoiceData;
   clientName: string;
+  isUpdated: boolean;
 }
 
-const InvoiceTemplate = ({invoiceData, clientName}: InvoiceTemplateProps) => {
+const InvoiceTemplate = ({invoiceData, clientName, isUpdated}: InvoiceTemplateProps) => {
   // 확인 여부 상태 (제출 후 true)
   const [isConfirmed, setIsConfirmed] = useState(false);
 
@@ -44,42 +45,24 @@ const InvoiceTemplate = ({invoiceData, clientName}: InvoiceTemplateProps) => {
 
   // 서버로 데이터 전송
   const handleConfirm = async () => {
-    console.log('확정 시 서버로 값 전송')
-    // try {
-    //   const response = await fetch("/api/invoice/confirm", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       clientName,
-    //       invoiceData: {
-    //         ...invoiceData,
-    //         subtotal,
-    //         previousBalance,
-    //         totalAmount,
-    //         balance,
-    //       },
-    //     }),
-    //   });
-    //
-    //   if (!response.ok) {
-    //     throw new Error("서버 응답 실패");
-    //   }
-    //
-    //   alert("확정되었습니다!");
-    // } catch (error) {
-    //   console.error("확정 실패:", error);
-    //   alert("확정 중 오류가 발생했습니다.");
-    // }
+    if (!isUpdated) {
+      alert("먼저 반영하기 버튼을 눌러주세요.");
+      return;
+    }
+
+    console.log("확정 시 서버로 값 전송");
     setIsConfirmed(true);
+    alert("확정 처리되었습니다.");
   };
 
   return (
     <>
       <div className="invoice">
         <div className="action-buttons">
-          <button className={isConfirmed ? "active" : "inactive"} onClick={handleConfirm}>
+          <button
+            className={isConfirmed ? "active" : "inactive"}
+            onClick={handleConfirm}
+          >
             확정하기
           </button>
         </div>

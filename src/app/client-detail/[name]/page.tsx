@@ -2,8 +2,8 @@
 import {useParams} from "next/navigation";
 import {useState} from "react";
 import HeaderDetail from "@/components/header/HeaderDetail";
-import ClientInputForm from "@/components/ClientInputForm";
-import InvoiceTemplate from "@/components/InvoiceTemplate";
+import ClientInputForm from "@/components/clientDetail/ClientInputForm";
+import InvoiceTemplate from "@/components/clientDetail/InvoiceTemplate";
 
 interface InvoiceItem {
   name: string;
@@ -38,6 +38,8 @@ const ClientDetailPage = () => {
     note: "",
   });
 
+  const [isUpdated, setIsUpdated] = useState(false); // 추가된 상태
+
   return (
     <>
       <HeaderDetail clientName={clientName}/>
@@ -46,10 +48,18 @@ const ClientDetailPage = () => {
           <div className="main-wrapper">
             <div className="layout-half" id="invoice">
               <div className="input-group">
-                <ClientInputForm invoiceData={invoiceData} setInvoiceData={setInvoiceData}/>
+                <ClientInputForm
+                  invoiceData={invoiceData}
+                  setInvoiceData={setInvoiceData}
+                  setIsUpdated={setIsUpdated}
+                />
               </div>
               <div className="viewer-group">
-                <InvoiceTemplate invoiceData={invoiceData} clientName={clientName}/>
+                <InvoiceTemplate
+                  invoiceData={invoiceData}
+                  clientName={clientName}
+                  isUpdated={isUpdated}
+                />
               </div>
             </div>
           </div>
