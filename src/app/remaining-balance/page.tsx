@@ -1,11 +1,12 @@
 import React from 'react';
 import Header from "@/components/header/Header";
 import BalanceTable from "@/components/balance/BalanceTable";
+import HeaderHome from "@/components/header/HeaderHome";
 
 const BalancePage = () => {
   return (
     <>
-      <Header/>
+      <HeaderHome/>
       <main className="site-content">
         <div className="container">
           <div className="main-wrapper">

@@ -25,6 +25,7 @@ table {
     padding: 10px 18px;
     text-align: center;
     border: 1px solid #ddd;
+    vertical-align: middle;
   }
 }
 
@@ -86,8 +87,7 @@ table {
   }
 
   td {;
-    padding: 15px 18px;
-    font-size: 17px;
+    padding: 14px 18px;
     font-weight: 500;
 
     &.id {
