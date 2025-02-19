@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import ClientRegisterModal from "@/components/main/ClientModal";
-import { updateClient, updateFavorite } from '@/utils/api';
+import { getClientList, updateClient, updateFavorite } from '@/utils/api';
 
 
 // 공통 타입 정의
@@ -26,7 +26,7 @@ export default function ClientList() {
 
   // 최초 로딩 시 정렬 적용 (이름순 정렬)
   useEffect(() => {
-    fetchClients().then(clientList => {
+    getClientList().then(clientList => {
       setClients(
         [...clientList].sort((a, b) => Number(b.isFavorite) - Number(a.isFavorite) || a.name.localeCompare(b.name, "ko-KR"))
       );
@@ -82,20 +82,7 @@ export default function ClientList() {
     }
   };
 
-  async function fetchClients() {
-    try {
-      const response = await fetch('/api/client'); // API 엔드포인트 호출
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.json();
-      console.log('Clients:', data.clients);
-      return data.clients;
-    } catch (error) {
-      console.error('Error fetching clients:', error);
-      return [];
-    }
-  }
+  
 
   return (
     <div className="client-list">
