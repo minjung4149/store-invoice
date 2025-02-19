@@ -1,3 +1,18 @@
+export const getClientList = async () => {
+    try {
+        const response = await fetch('/api/clients'); // API 엔드포인트 호출
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log('Clients:', data.clients);
+        return data.clients;
+      } catch (error) {
+        console.error('Error fetching clients:', error);
+        return [];
+      }
+};
+
 export const createClient = async (clientData: {
     name: string;
     phone: string;
