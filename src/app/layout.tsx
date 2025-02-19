@@ -10,9 +10,9 @@ export default function RootLayout({children}: { children: React.ReactNode }) {
       <title>계산서</title>
       <meta name="robots" content="noindex"/>
       <meta name="keywords"
-            content="계산서, 영수증, 고객관리"/>
+            content="계산서, 영수증, 거래처관리"/>
       <meta name="description"
-            content="고객 관리 및 계산서 페이지입니다."/>
+            content="거래처 관리 및 계산서 페이지입니다."/>
     </head>
     <body className="site">
     {children}

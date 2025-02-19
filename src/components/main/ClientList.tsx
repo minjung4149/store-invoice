@@ -1,11 +1,9 @@
-"use client"
-import { useState, useEffect } from "react";
+"use client";
+import {useState} from "react";
 import Link from "next/link";
 import ClientRegisterModal from "@/components/main/ClientModal";
-import { getClientList, updateClient, updateFavorite } from '@/utils/api';
+import {updateClient, updateFavorite} from '@/utils/api';
 
-
-// 공통 타입 정의
 interface Client {
   id: number | null;
   name: string;
@@ -14,28 +12,14 @@ interface Client {
   isFavorite: boolean;
 }
 
-const initialClients: Client[] = [
-  {id:1, name: "ABC마트", phone: "010-1234-5678", note: "VIP 고객", isFavorite: false},
-  {id:2, name: "나이스 마트", phone: "010-1234-5678", note: "", isFavorite: true},
-];
+interface ClientListProps {
+  clients: Client[];
+  refreshClients: () => void;
+}
 
-export default function ClientList() {
-  const [clients, setClients] = useState<Client[]>([]);
+export default function ClientList({clients, refreshClients}: ClientListProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedClient, setSelectedClient] = useState<Client | null>(null); // ✅ 오류 해결
-
-  // 최초 로딩 시 정렬 적용 (이름순 정렬)
-  useEffect(() => {
-    getClientList().then(clientList => {
-      setClients(
-        [...clientList].sort((a, b) => Number(b.isFavorite) - Number(a.isFavorite) || a.name.localeCompare(b.name, "ko-KR"))
-      );
-    });
-
-    setClients(
-      [...initialClients].sort((a, b) => a.name.localeCompare(b.name, "ko-KR"))
-    );
-  }, []);
+  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
 
   // 거래처 수정 버튼 클릭
   const handleEditClick = (client: Client) => {
@@ -45,55 +29,38 @@ export default function ClientList() {
 
   // 거래처 수정 (모달에서 입력 후 저장)
   const handleRegisterClient = async (updatedClient: Client) => {
-    setClients((prev) =>
-      [...prev.map((client) =>
-        client.id === updatedClient.id ? { ...updatedClient, isFavorite: client.isFavorite } : client
-      )].sort((a, b) =>
-        Number(b.isFavorite) - Number(a.isFavorite) || a.name.localeCompare(b.name, "ko-KR")
-      )
-    );
-    
     try {
-      const updated = await updateClient(updatedClient);
-      console.log('Updated client:', updated);
-      alert('고객 정보가 갱신되었습니다.');
+      await updateClient(updatedClient);
+      refreshClients(); // 최신 데이터 다시 불러오기
+      setIsModalOpen(false);
+      alert('거래처 정보가 수정되었습니다.');
     } catch (error) {
-      console.error('정보 갱신 실패:', error);
-      alert('고객 정보 갱신에 실패했습니다.');
+      console.error('거래처 정보 수정 실패: 서버 응답 오류 또는 네트워크 문제', error);
+      alert('거래처 정보를 수정하는 중 오류가 발생했습니다.');
     }
-    setIsModalOpen(false);
   };
 
   // 즐겨찾기 버튼 클릭 (별 아이콘 색상 변경 + 즐겨찾기 우선 정렬)
   const toggleFavorite = async (id: number, isFavorite: boolean) => {
-    setClients((prev) =>
-      [...prev.map((client) =>
-        client.id === id ? { ...client, isFavorite: !client.isFavorite } : client
-      )].sort((a, b) =>
-        Number(b.isFavorite) - Number(a.isFavorite) || a.name.localeCompare(b.name, "ko-KR")
-      )
-    );
-
     try {
-      const updated = await updateFavorite({id, isFavorite:!isFavorite});
-      console.log('Updated client:', updated);
+      await updateFavorite({id, isFavorite: !isFavorite});
+      refreshClients(); // 최신 데이터 다시 불러오기
     } catch (error) {
-      console.error('정보 갱신 실패:', error);
+      console.error(`즐겨찾기 변경 실패 (거래처 ID: ${id}): 서버 응답 오류 또는 네트워크 문제`, error);
+      alert('즐겨찾기 상태를 변경하는 중 오류가 발생했습니다.');
     }
   };
-
-  
 
   return (
     <div className="client-list">
       <h2 className="under-line"> 거래처 리스트</h2>
       <ul>
         {clients.map((client) => (
-          <li key={client.name}>
+          <li key={client.id}>
             <div className="client-action">
               {/* 수정 */}
               <button onClick={() => handleEditClick(client)}>
-                <img src="/images/edit.png" alt="수정" />
+                <img src="/images/edit.png" alt="수정"/>
               </button>
 
               {/* 즐겨찾기 */}
@@ -109,12 +76,11 @@ export default function ClientList() {
                 <h3>{client.name}</h3>
               </Link>
             </div>
-
           </li>
         ))}
       </ul>
 
-      {/* 거래처 수정 모달 (기존 등록 모달 재사용) */}
+      {/* 거래처 수정 모달 */}
       {isModalOpen && (
         <ClientRegisterModal
           isOpen={isModalOpen}

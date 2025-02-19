@@ -1,6 +1,7 @@
 'use client';
 import {useState} from "react";
 import {useRouter} from "next/navigation";
+import {login} from "@/utils/api";
 
 const fixedUserId = "user20"; // 고정 아이디
 const fixedPassword = "2020"; // 고정 비밀번호
@@ -12,11 +13,10 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     if (password === fixedPassword) {
-      const res = await fetch("/api/login", {method: "POST"});
-
-      if (res.ok) {
+      try {
+        await login();
         router.push("/main"); // 로그인 후 이동할 페이지
-      } else {
+      } catch {
         setError("로그인에 실패했습니다.");
       }
     } else {
@@ -26,7 +26,7 @@ const LoginPage = () => {
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      handleLogin(); // 엔터 키를 누르면 로그인 실행
+      handleLogin();
     }
   };
 

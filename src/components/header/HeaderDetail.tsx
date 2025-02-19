@@ -23,7 +23,7 @@ const HeaderDetail = ({clientName}: HeaderDetailProps) => {
           </span>{clientName}</h2>
 
           <div className="btn-area">
-            <Link href="/" className="default">
+            <Link href="/main" className="default">
               <FontAwesomeIcon icon={faHouse} className="icon"/>
               홈으로
             </Link>
