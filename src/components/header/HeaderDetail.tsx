@@ -1,5 +1,7 @@
 'use client';
 import Link from "next/link";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faHouse, faBars, faPen} from "@fortawesome/free-solid-svg-icons";
 import {usePathname} from "next/navigation";
 
 interface HeaderDetailProps {
@@ -22,7 +24,8 @@ const HeaderDetail = ({clientName}: HeaderDetailProps) => {
 
           <div className="btn-area">
             <Link href="/" className="default">
-              홈
+              <FontAwesomeIcon icon={faHouse} className="icon"/>
+              홈으로
             </Link>
             {clientName && (
               <Link
@@ -33,6 +36,7 @@ const HeaderDetail = ({clientName}: HeaderDetailProps) => {
                 }
                 className="default primary"
               >
+                <FontAwesomeIcon icon={isOrderHistoryPage ? faPen : faBars} className="icon"/>
                 {isOrderHistoryPage ? "계산서 작성" : "거래 내역 보기"}
               </Link>
             )}
