@@ -4,16 +4,16 @@ import Link from "next/link";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus, faWonSign} from "@fortawesome/free-solid-svg-icons";
 import ClientRegisterModal from "@/components/main/ClientModal";
-import { createClient } from '@/utils/api';
+import {createClient} from '@/utils/api';
 
 const Header = () => {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-  
+
   return (
     <header>
       <div className="container">
         <div className="header_wrapper">
-          <Link href="/">
+          <Link href="/main">
             {/*<h1>중앙청과 20번</h1>*/}
             <h1>
               테스트</h1>
