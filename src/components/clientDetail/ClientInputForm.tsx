@@ -251,7 +251,7 @@ const ClientInputForm = ({setInvoiceData, setIsUpdated}: ClientInputFormProps) =
       {/* 반영하기 버튼 */}
       <div className="action-buttons">
         <button className={isConfirmed ? "active" : "inactive"} onClick={handleSubmit}>
-          <FontAwesomeIcon icon={faArrowUpRightFromSquare}/>
+          <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
           반영하기
         </button>
       </div>
@@ -283,7 +283,7 @@ const ClientInputForm = ({setInvoiceData, setIsUpdated}: ClientInputFormProps) =
 
       <hr className="divider narrow"/>
       <button className="toggle-fruit-btn" onClick={() => setShowFruitOptions(!showFruitOptions)}>
-        <FontAwesomeIcon icon={faAppleWhole}/>
+        <FontAwesomeIcon icon={faAppleWhole} className="icon"/>
         {showFruitOptions ? "과일 목록 닫기" : "과일 목록 보기"}
       </button>
 
@@ -347,7 +347,7 @@ const ClientInputForm = ({setInvoiceData, setIsUpdated}: ClientInputFormProps) =
         ))}
 
         <button className="add-item" onClick={handleAddItem}>
-          <FontAwesomeIcon icon={faPlus}/>품목 추가
+          <FontAwesomeIcon icon={faPlus} className="icon"/>품목 추가
         </button>
       </div>
       <hr className="divider"/>
@@ -378,7 +378,7 @@ const ClientInputForm = ({setInvoiceData, setIsUpdated}: ClientInputFormProps) =
       {/* 추가 반영하기 버튼 */}
       <div className="action-buttons-bottom">
         <button className={isConfirmed ? "active" : "inactive"} onClick={handleSubmit}>
-          <FontAwesomeIcon icon={faArrowUpRightFromSquare}/>
+          <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
           반영하기
         </button>
       </div>

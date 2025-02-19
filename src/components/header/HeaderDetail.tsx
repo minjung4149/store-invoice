@@ -24,7 +24,7 @@ const HeaderDetail = ({clientName}: HeaderDetailProps) => {
 
           <div className="btn-area">
             <Link href="/" className="default">
-              <FontAwesomeIcon icon={faHouse}/>
+              <FontAwesomeIcon icon={faHouse} className="icon"/>
               홈으로
             </Link>
             {clientName && (
@@ -36,7 +36,7 @@ const HeaderDetail = ({clientName}: HeaderDetailProps) => {
                 }
                 className="default primary"
               >
-                <FontAwesomeIcon icon={isOrderHistoryPage ? faPen : faBars}/>
+                <FontAwesomeIcon icon={isOrderHistoryPage ? faPen : faBars} className="icon"/>
                 {isOrderHistoryPage ? "계산서 작성" : "거래 내역 보기"}
               </Link>
             )}

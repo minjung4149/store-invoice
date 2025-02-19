@@ -18,11 +18,11 @@ const Header = () => {
           </Link>
           <div className="btn-area">
             <button className="primary default" onClick={() => setIsRegisterModalOpen(true)}>
-              <FontAwesomeIcon icon={faPlus}/>
+              <FontAwesomeIcon icon={faPlus} className="icon"/>
               신규 거래처 등록
             </button>
             <Link href="/remaining-balance" className="default">
-              <FontAwesomeIcon icon={faWonSign}/>
+              <FontAwesomeIcon icon={faWonSign} className="icon"/>
               거래처 잔금 확인
             </Link>
           </div>

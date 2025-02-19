@@ -65,7 +65,7 @@ const InvoiceTemplate = ({invoiceData, clientName, isUpdated}: InvoiceTemplatePr
             className={isConfirmed ? "active" : "inactive"}
             onClick={handleConfirm}
           >
-            <FontAwesomeIcon icon={faCircleCheck}/>
+            <FontAwesomeIcon icon={faCircleCheck} className="icon"/>
             확정하기
           </button>
         </div>
@@ -182,7 +182,7 @@ const InvoiceTemplate = ({invoiceData, clientName, isUpdated}: InvoiceTemplatePr
         </div>
       </div>
       <button className="print-btn">
-        <FontAwesomeIcon icon={faPrint}/>
+        <FontAwesomeIcon icon={faPrint} className="icon"/>
         인쇄하기
       </button>
     </>

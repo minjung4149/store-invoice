@@ -15,11 +15,10 @@ const HeaderHome = () => {
           </Link>
           <div className="btn-area">
             <Link href="/" className="default">
-              <FontAwesomeIcon icon={faHouse}/>
+              <FontAwesomeIcon icon={faHouse} className="icon"/>
               홈으로
             </Link>
           </div>
-
         </div>
       </div>
     </header>
