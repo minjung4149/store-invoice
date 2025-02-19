@@ -2,6 +2,7 @@
 import {useState, useEffect} from "react";
 
 interface Client {
+  id: number | null;
   name: string;
   phone: string;
   note?: string;
@@ -21,6 +22,7 @@ export default function ClientRegisterModal({
                                               onRegister,
                                               initialData,
                                             }: ClientRegisterModalProps) {
+  const [id, setId] = useState<number | null>(null);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [note, setNote] = useState("");
@@ -29,6 +31,7 @@ export default function ClientRegisterModal({
   // 모달이 열릴 때 기존 데이터 로드
   useEffect(() => {
     if (initialData) {
+      setId(initialData.id ?? null)
       setName(initialData.name);
       setPhone(initialData.phone);
       setNote(initialData.note || "");
@@ -42,7 +45,7 @@ export default function ClientRegisterModal({
       return;
     }
 
-    onRegister({name, phone, note, isFavorite});
+    onRegister({id, name, phone, note, isFavorite});
     onClose();
   };
 

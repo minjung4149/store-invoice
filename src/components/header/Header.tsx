@@ -1,10 +1,12 @@
 'use client';
-import {useState} from "react";
+import {useState, useCallback} from "react";
 import Link from "next/link";
 import ClientRegisterModal from "@/components/main/ClientModal";
+import { createClient } from '@/utils/api';
 
 const Header = () => {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  
   return (
     <header>
       <div className="container">
@@ -28,7 +30,16 @@ const Header = () => {
       <ClientRegisterModal
         isOpen={isRegisterModalOpen}
         onClose={() => setIsRegisterModalOpen(false)}
-        onRegister={(client) => console.log("새 거래처 등록:", client)}
+        onRegister={useCallback(async (client) => {
+          try {
+            const newClient = await createClient(client);
+            console.log('Created client:', newClient);
+            alert('고객이 성공적으로 추가되었습니다.');
+          } catch (error) {
+            console.error('고객 추가 실패:', error);
+            alert('고객 추가에 실패했습니다.');
+          }
+        }, [])}
       />
     </header>
   );
