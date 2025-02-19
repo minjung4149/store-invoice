@@ -28,7 +28,7 @@ export default function ClientList() {
   useEffect(() => {
     fetchClients().then(clientList => {
       setClients(
-        [...clientList].sort((a, b) => a.name.localeCompare(b.name, "ko-KR"))
+        [...clientList].sort((a, b) => Number(b.isFavorite) - Number(a.isFavorite) || a.name.localeCompare(b.name, "ko-KR"))
       );
     });
 
