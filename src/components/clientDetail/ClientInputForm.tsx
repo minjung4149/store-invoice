@@ -1,5 +1,7 @@
 "use client";
 import React, {useState} from "react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faAppleWhole, faPlus, faArrowUpRightFromSquare} from "@fortawesome/free-solid-svg-icons";
 
 interface InvoiceItem {
   name: string;
@@ -21,7 +23,7 @@ interface InvoiceData {
 interface ClientInputFormProps {
   invoiceData: InvoiceData;
   setInvoiceData: React.Dispatch<React.SetStateAction<InvoiceData>>;
-  setIsUpdated: React.Dispatch<React.SetStateAction<boolean>>; // 추가된 props
+  setIsUpdated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // 과일 카테고리 데이터
@@ -249,6 +251,7 @@ const ClientInputForm = ({setInvoiceData, setIsUpdated}: ClientInputFormProps) =
       {/* 반영하기 버튼 */}
       <div className="action-buttons">
         <button className={isConfirmed ? "active" : "inactive"} onClick={handleSubmit}>
+          <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
           반영하기
         </button>
       </div>
@@ -280,6 +283,7 @@ const ClientInputForm = ({setInvoiceData, setIsUpdated}: ClientInputFormProps) =
 
       <hr className="divider narrow"/>
       <button className="toggle-fruit-btn" onClick={() => setShowFruitOptions(!showFruitOptions)}>
+        <FontAwesomeIcon icon={faAppleWhole} className="icon"/>
         {showFruitOptions ? "과일 목록 닫기" : "과일 목록 보기"}
       </button>
 
@@ -342,7 +346,9 @@ const ClientInputForm = ({setInvoiceData, setIsUpdated}: ClientInputFormProps) =
           </div>
         ))}
 
-        <button className="add-item" onClick={handleAddItem}>+ 품목 추가</button>
+        <button className="add-item" onClick={handleAddItem}>
+          <FontAwesomeIcon icon={faPlus} className="icon"/>품목 추가
+        </button>
       </div>
       <hr className="divider"/>
 
@@ -372,6 +378,7 @@ const ClientInputForm = ({setInvoiceData, setIsUpdated}: ClientInputFormProps) =
       {/* 추가 반영하기 버튼 */}
       <div className="action-buttons-bottom">
         <button className={isConfirmed ? "active" : "inactive"} onClick={handleSubmit}>
+          <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
           반영하기
         </button>
       </div>

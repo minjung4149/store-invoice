@@ -1,5 +1,7 @@
 "use client"
 import {useState, useEffect} from "react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCheck} from "@fortawesome/free-solid-svg-icons";
 
 interface Client {
   id: number | null;
@@ -74,6 +76,7 @@ export default function ClientRegisterModal({
         </div>
         <div className="modal-footer">
           <button className="default primary" onClick={handleSubmit}>
+            <FontAwesomeIcon icon={faCheck} className="icon"/>
             {initialData ? "수정 완료" : "등록"}
           </button>
         </div>

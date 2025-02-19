@@ -1,5 +1,7 @@
 "use client";
 import React, {useState} from "react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCircleCheck, faPrint} from "@fortawesome/free-solid-svg-icons";
 
 
 interface InvoiceItem {
@@ -63,6 +65,7 @@ const InvoiceTemplate = ({invoiceData, clientName, isUpdated}: InvoiceTemplatePr
             className={isConfirmed ? "active" : "inactive"}
             onClick={handleConfirm}
           >
+            <FontAwesomeIcon icon={faCircleCheck} className="icon"/>
             확정하기
           </button>
         </div>
@@ -178,7 +181,10 @@ const InvoiceTemplate = ({invoiceData, clientName, isUpdated}: InvoiceTemplatePr
           <p>농협: 317-0003-6690-11 중앙영농(주)</p>
         </div>
       </div>
-      <button className="print-btn">인쇄하기</button>
+      <button className="print-btn">
+        <FontAwesomeIcon icon={faPrint} className="icon"/>
+        인쇄하기
+      </button>
     </>
   )
 };

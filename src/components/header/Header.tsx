@@ -1,6 +1,8 @@
 'use client';
 import {useState, useCallback} from "react";
 import Link from "next/link";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPlus, faWonSign} from "@fortawesome/free-solid-svg-icons";
 import ClientRegisterModal from "@/components/main/ClientModal";
 import { createClient } from '@/utils/api';
 
@@ -13,13 +15,16 @@ const Header = () => {
         <div className="header_wrapper">
           <Link href="/">
             {/*<h1>중앙청과 20번</h1>*/}
-            <h1>테스트</h1>
+            <h1>
+              테스트</h1>
           </Link>
           <div className="btn-area">
             <button className="primary default" onClick={() => setIsRegisterModalOpen(true)}>
+              <FontAwesomeIcon icon={faPlus} className="icon"/>
               신규 거래처 등록
             </button>
             <Link href="/remaining-balance" className="default">
+              <FontAwesomeIcon icon={faWonSign} className="icon"/>
               거래처 잔금 확인
             </Link>
           </div>
