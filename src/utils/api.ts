@@ -1,3 +1,36 @@
+export const getInvoicesByClientId = async (clientId: number) => {
+  try {
+    const response = await fetch(`/api/invoice/search?clientId=${clientId}`);
+    if (!response.ok) throw new Error(`Error: ${response.statusText}`);
+    return await response.json();
+  } catch (error) {
+    console.error(`Failed to fetch client with ID ${clientId}:`, error);
+    throw error;
+  }
+};
+
+export const getLatestInvoiceIdByClientId = async (clientId: number) => {
+  try {
+    const response = await fetch(`/api/invoice/latest?clientId=${clientId}`);
+    if (!response.ok) throw new Error(`Error: ${response.statusText}`);
+    return await response.json();
+  } catch (error) {
+    console.error(`Failed to fetch client with ID ${clientId}:`, error);
+    throw error;
+  }
+};
+
+export const getClientById = async (id: number) => {
+  try {
+    const response = await fetch(`/api/clients/search?id=${id}`);
+    if (!response.ok) throw new Error(`Error: ${response.statusText}`);
+    return await response.json();
+  } catch (error) {
+    console.error(`Failed to fetch client with ID ${id}:`, error);
+    throw error;
+  }
+};
+
 export const getClientList = async () => {
   try {
     const response = await fetch('/api/clients'); // API 엔드포인트 호출

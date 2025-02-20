@@ -4,6 +4,7 @@ import {useState} from "react";
 import HeaderDetail from "@/components/header/HeaderDetail";
 import ClientInputForm from "@/components/clientDetail/ClientInputForm";
 import InvoiceTemplate from "@/components/clientDetail/InvoiceTemplate";
+import {getLatestInvoiceIdByClientId} from "@/utils/api";
 
 interface InvoiceItem {
   name: string;
@@ -27,9 +28,11 @@ const ClientDetailPage = () => {
   const params = useParams();
   const clientName = decodeURIComponent((params.name as string) || "").replace(/-/g, " ");
 
+  // getLatestInvoiceIdByClientId 함수로 최신 invoiceId를 가져온다.
+  // 최신 invoiceId에 +1 하여 invoiceNumber로 설정한다.  
 
   const [invoiceData, setInvoiceData] = useState<InvoiceData>({
-    invoiceNumber: "",
+    invoiceNumber: clientName + "-" + 1,
     year: currentYear,
     month: "",
     day: "",

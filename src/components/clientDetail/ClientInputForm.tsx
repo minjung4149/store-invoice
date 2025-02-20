@@ -99,12 +99,13 @@ const convertToKoreanCurrency = (num: number): string => {
 };
 
 
-const ClientInputForm = ({setInvoiceData, setIsUpdated}: ClientInputFormProps) => {
+const ClientInputForm = ({invoiceData, setInvoiceData, setIsUpdated}: ClientInputFormProps) => {
   // const currentYear = new Date().getFullYear().toString()
   const today = new Date();
   const currentYear = today.getFullYear().toString();
   const currentMonth = (today.getMonth() + 1).toString().padStart(2, "0");
   const currentDay = today.getDate().toString().padStart(2, "0");
+  const numbering = invoiceData.invoiceNumber;
 
   // 초기 항목 리스트 (5개 항목을 빈 값으로 생성)
   const initialItems = Array.from({length: 5}, () => ({
@@ -116,7 +117,7 @@ const ClientInputForm = ({setInvoiceData, setIsUpdated}: ClientInputFormProps) =
 
   // 폼 데이터 상태
   const [formData, setFormData] = useState<InvoiceData>({
-    invoiceNumber: "INVOICE-01",
+    invoiceNumber: "INVOICE-"+numbering,
     year: currentYear,
     month: currentMonth,
     day: currentDay,

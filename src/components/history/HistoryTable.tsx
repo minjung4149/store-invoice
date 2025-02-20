@@ -12,6 +12,7 @@ interface HistoryTableProps {
   onSelectOrder: (order: OrderData) => void; // 선택된 주문을 부모 컴포넌트로 전달
 }
 
+// getInvoicesByClientId 함수를 사용하여 해당 거래처의 주문 내역을 가져옴
 const HistoryTable: React.FC<HistoryTableProps> = ({onSelectOrder}) => {
   const data: OrderData[] = [
     {id: 3, date: "2025-02-10 (수)", total: "150000", balance: "30000"},
