@@ -20,7 +20,7 @@ export async function GET(req: Request) {
         id: true,
         no: true,
         createDate: true,
-        previousBalance: true,
+        balance: true,
         details: {
           select: { price: true },
         },
@@ -32,7 +32,7 @@ export async function GET(req: Request) {
       id: invoice.id,
       no: invoice.no,
       createDate: invoice.createDate,
-      previousBalance: invoice.previousBalance,
+      balance: invoice.balance,
       total: invoice.details.reduce((sum, detail) => sum + detail.price, 0),
     }));
 

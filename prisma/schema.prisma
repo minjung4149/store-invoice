@@ -34,7 +34,7 @@ model Invoice {
   no               Int      @unique                      // 고유한 인보이스 번호
   client           Client   @relation(fields: [clientId], references: [id])
   clientId         Int     
-  previousBalance  Int      @default(0)                  // 이전 잔금 (정수)
+  balance  Int     @default(0)                  // 잔금 (정수)
   payment          Int      @default(0)                  // 입금된 금액 (정수)
   createDate       DateTime @default(now())              // 생성일
   updateDate       DateTime @updatedAt                   // 수정일 (자동 업데이트)

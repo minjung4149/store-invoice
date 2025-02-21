@@ -1,10 +1,10 @@
 "use client";
 import {useParams} from "next/navigation";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import HeaderDetail from "@/components/header/HeaderDetail";
 import ClientInputForm from "@/components/clientDetail/ClientInputForm";
 import InvoiceTemplate from "@/components/clientDetail/InvoiceTemplate";
-import {getLatestInvoiceIdByClientId} from "@/utils/api";
+import {getLatestInvoiceByClientId} from "@/utils/api";
 
 interface InvoiceItem {
   name: string;
@@ -27,12 +27,26 @@ const ClientDetailPage = () => {
   const currentYear = new Date().getFullYear().toString();
   const params = useParams();
   const clientName = decodeURIComponent((params.name as string) || "").replace(/-/g, " ");
+  const [invoiceNumber, setInvoiceNumber] = useState(clientName + "-"); // 변경된 코드
 
-  // getLatestInvoiceIdByClientId 함수로 최신 invoiceId를 가져온다.
-  // 최신 invoiceId에 +1 하여 invoiceNumber로 설정한다.  
+  // getLatestInvoiceByClientId 함수로 최신 invoiceId를 가져온다.
+  // 최신 invoiceId에 +1 하여 invoiceNumber로 설정한다.
+  // getLatestInvoiceByClientId 받아오는 함수
+  const getInvoiceId = async (clientId: number) => {
+    try {
+      const data = await getLatestInvoiceByClientId(clientId);
+      console.log("latestInvoiceId", data.latestInvoice.id);
+    } catch (error) {
+      console.error(`Failed to fetch latest invoice ID for client with ID ${clientId}:`, error);
+      throw error;
+    }
+  }
+
+  // 영수증 페이지로 이동 시 Client ID를 받아와야 한다
+  getInvoiceId(1);
 
   const [invoiceData, setInvoiceData] = useState<InvoiceData>({
-    invoiceNumber: clientName + "-" + 1,
+    invoiceNumber: "",
     year: currentYear,
     month: "",
     day: "",

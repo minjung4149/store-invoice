@@ -1,8 +1,10 @@
 "use client";
 import React, {useState, useEffect, useRef} from "react";
+import {getInvoicesByClientId} from "@/utils/api";
 
 interface OrderData {
   id: number;
+  no: number;
   date: string;
   total: string;
   balance: string;
@@ -15,13 +17,15 @@ interface HistoryTableProps {
 // getInvoicesByClientId 함수를 사용하여 해당 거래처의 주문 내역을 가져옴
 const HistoryTable: React.FC<HistoryTableProps> = ({onSelectOrder}) => {
   const data: OrderData[] = [
-    {id: 3, date: "2025-02-10 (수)", total: "150000", balance: "30000"},
-    {id: 2, date: "2025-02-10 (목)", total: "150000", balance: "30000"},
-    {id: 1, date: "2025-02-10 (토)", total: "150000", balance: "30000"},
+    {id: 3, no: 3, date: "2025-02-10 (수)", total: "150000", balance: "30000"},
+    {id: 2, no: 2, date: "2025-02-10 (목)", total: "150000", balance: "30000"}
   ];
+
+  // const data: OrderData[] = [];
 
   const itemsPerPage = 10;
   // 현재 화면에 표시할 데이터 상태
+
   const [visibleData, setVisibleData] = useState(data.slice(0, itemsPerPage));
 
   // 현재까지 로드된 항목 개수
@@ -33,11 +37,29 @@ const HistoryTable: React.FC<HistoryTableProps> = ({onSelectOrder}) => {
   // 기본 선택된 주문 (가장 최근 데이터)
   const [selectedOrder, setSelectedOrder] = useState<OrderData>(data[0]);
 
+  const getInvoices = async (id: number) => {
+    try {
+      const clientInvoice = await getInvoicesByClientId(id);
+      return clientInvoice.invoices;
+    } catch (error) {
+      console.error("Failed to fetch invoices:", error);
+    }
+  }
+  useEffect(() => {
+    getInvoices(1).then((invoices) => {         
+      invoices.forEach((invoice: OrderData) => {
+        data.push({id: invoice.id, no: invoice.no, date: invoice.date, total: invoice.total, balance: invoice.balance});
+      }); 
+      console.log("INVOICE", data);
+      setVisibleData(data.slice(0, loadedItems + itemsPerPage));
+    });
+  }, []);
+
   useEffect(() => {
     // Intersection Observer 인스턴스 생성
     const observer = new IntersectionObserver(
       (entries) => {
-        const target = entries[0];
+        const target = entries[0];       
 
         // 화면에 감지된 요소가 보이고, 아직 로드되지 않은 데이터가 남아있다면 추가 로드
         if (target.isIntersecting && loadedItems < data.length) {
@@ -78,13 +100,13 @@ const HistoryTable: React.FC<HistoryTableProps> = ({onSelectOrder}) => {
         </tr>
         </thead>
         <tbody>
-        {visibleData.map((order) => (
+        {data.length > 0 && visibleData.map((order) => (
           <tr
-            key={order.id}
-            className={selectedOrder.id === order.id ? "selected-row" : ""}
+            key={order.no}
+            className={selectedOrder.no === order.no ? "selected-row" : ""}
             onClick={() => handleRowClick(order)}
           >
-            <td className="id">{order.id}</td>
+            <td className="no">{order.no}</td>
             <td className="date">{order.date}</td>
             <td className="total">{parseInt(order.total, 10).toLocaleString()}</td>
             <td className="balance">{parseInt(order.balance, 10).toLocaleString()}</td>

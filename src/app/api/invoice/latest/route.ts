@@ -16,14 +16,13 @@ export async function GET(req: Request) {
     const latestInvoice = await prisma.invoice.findFirst({
       where: { clientId: Number(clientId) },
       orderBy: { createDate: 'desc' }, // 최신 순으로 정렬하여 첫 번째 데이터 가져오기
-      select: { id: true }, // ID만 가져오기
     });
 
     if (!latestInvoice) {
-      return NextResponse.json({ latestInvoiceId: 0 }, { status: 200 });
+      return NextResponse.json({ latestInvoice:  null}, { status: 200 });
     }
 
-    return NextResponse.json({ latestInvoiceId: latestInvoice.id }, { status: 200 });
+    return NextResponse.json({ latestInvoice: latestInvoice }, { status: 200 });
   } catch (error) {
     console.error('Error fetching latest invoice:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });

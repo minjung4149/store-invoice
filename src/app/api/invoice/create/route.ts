@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { no, clientId, previousBalance, payment, details } = body;
+    const { no, clientId, balance, payment, details } = body;
 
     if (!no || !clientId || !Array.isArray(details)) {
       return NextResponse.json({ error: '올바른 요청 데이터를 제공해야 합니다.' }, { status: 400 });
@@ -20,7 +20,7 @@ export async function POST(req: Request) {
         data: {
           no,
           clientId,
-          previousBalance: previousBalance ?? 0,
+          balance: balance ?? 0,
           payment: payment ?? 0,
         },
       });
@@ -34,6 +34,18 @@ export async function POST(req: Request) {
             quantity: detail.quantity ?? 1,
             price: detail.price ?? 0,
           })),
+        });
+      }
+
+      // payment 값이 있으면 Client의 balance 업데이트
+      if (payment && payment > 0) {
+        await tx.client.update({
+          where: { id: clientId },
+          data: {
+            balance: {
+              increment: payment,
+            },
+          },
         });
       }
 
