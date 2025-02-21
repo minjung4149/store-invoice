@@ -37,14 +37,13 @@ export async function POST(req: Request) {
         });
       }
 
-      // payment 값이 있으면 Client의 balance 업데이트
+      // Invoice.balance 값이 있으면 Client의 balance 업데이트
       if (payment && payment > 0) {
         await tx.client.update({
           where: { id: clientId },
           data: {
-            balance: {
-              increment: payment,
-            },
+            balance: balance ?? 0,
+            updateDate: new Date(),
           },
         });
       }
