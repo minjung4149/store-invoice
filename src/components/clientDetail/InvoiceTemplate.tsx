@@ -36,6 +36,8 @@ const InvoiceTemplate = ({invoiceData, clientName, isUpdated}: InvoiceTemplatePr
   }, 0);
 
   // 전잔금 (기본값 0, 추후 DB에서 받아올 예정)
+  // getLatestInvoiceByClientId() 함수로 최신 Invoice 정보를 가져온다.
+  // Invoice 정보에 balance가 있으면 previousBalance로 설정한다.
   const previousBalance = 0;
 
   // 합계 (소계 + 전잔금)
@@ -139,7 +141,8 @@ const InvoiceTemplate = ({invoiceData, clientName, isUpdated}: InvoiceTemplatePr
           </p>
           <hr className="divider"/>
           <p>
-            <span>전잔금:</span>
+            {/* Client의 balance */}
+            <span>전잔금:</span> 
             <span className="summary-value">{previousBalance.toLocaleString()} 원</span>
           </p>
           <hr className="divider"/>
