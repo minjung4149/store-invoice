@@ -1,4 +1,3 @@
-
 // 고객 정보 호출 api
 export const getClientById = async (id: number) => {
   try {
@@ -184,6 +183,7 @@ export const getLatestInvoiceByClientId = async (clientId: number) => {
   try {
     const response = await fetch(`/api/invoice/latest?clientId=${clientId}`);
     if (!response.ok) throw new Error(`Error: ${response.statusText}`);
+
     return await response.json();
   } catch (error) {
     console.error(`Failed to fetch client with ID ${clientId}:`, error);
@@ -206,6 +206,7 @@ export const getLatestInvoiceByClientId = async (clientId: number) => {
 //   ]
 // }
 
+//확정하기 버튼 클릭
 export const createInvoice = async (invoiceData: {
   clientId: number;
   title: string;

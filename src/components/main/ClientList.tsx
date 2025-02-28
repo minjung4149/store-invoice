@@ -21,17 +21,23 @@ export default function ClientList({clients, refreshClients}: ClientListProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
 
-  // 거래처 수정 버튼 클릭
+  /**
+   * 거래처 수정 버튼 클릭 시 실행되는 함수
+   * @param client 선택된 거래처 정보
+   */
   const handleEditClick = (client: Client) => {
     setSelectedClient(client);
     setIsModalOpen(true);
   };
 
-  // 거래처 수정 (모달에서 입력 후 저장)
+  /**
+   * 거래처 정보 수정 후 저장하는 함수 (모달 내에서 사용)
+   * @param updatedClient 수정된 거래처 객체
+   */
   const handleRegisterClient = async (updatedClient: Client) => {
     try {
-      await updateClient(updatedClient);
-      refreshClients(); // 최신 데이터 다시 불러오기
+      await updateClient(updatedClient); // 서버에 업데이트 요청
+      refreshClients(); // 최신 거래처 목록을 다시 불러옴
       setIsModalOpen(false);
       alert('거래처 정보가 수정되었습니다.');
     } catch (error) {
@@ -40,11 +46,16 @@ export default function ClientList({clients, refreshClients}: ClientListProps) {
     }
   };
 
-  // 즐겨찾기 버튼 클릭 (별 아이콘 색상 변경 + 즐겨찾기 우선 정렬)
+
+  /**
+   * 즐겨찾기 버튼 클릭 시 실행되는 함수
+   * @param id 거래처 ID
+   * @param isFavorite 현재 즐겨찾기 상태
+   */
   const toggleFavorite = async (id: number, isFavorite: boolean) => {
     try {
-      await updateFavorite({id, isFavorite: !isFavorite});
-      refreshClients(); // 최신 데이터 다시 불러오기
+      await updateFavorite({id, isFavorite: !isFavorite}); // 즐겨찾기 상태 변경 요청
+      refreshClients(); // 변경된 데이터를 반영하기 위해 최신 거래처 목록을 다시 불러옴
     } catch (error) {
       console.error(`즐겨찾기 변경 실패 (거래처 ID: ${id}): 서버 응답 오류 또는 네트워크 문제`, error);
       alert('즐겨찾기 상태를 변경하는 중 오류가 발생했습니다.');
@@ -72,7 +83,7 @@ export default function ClientList({clients, refreshClients}: ClientListProps) {
               </button>
             </div>
             <div className="client-info">
-              <Link href={`/client-detail/${encodeURIComponent(client.name.replace(/\s/g, "-"))}`} passHref>
+              <Link href={`/client-detail?name=${encodeURIComponent(client.name)}&id=${client.id}`} passHref>
                 <h3>{client.name}</h3>
               </Link>
             </div>

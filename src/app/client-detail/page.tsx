@@ -1,6 +1,6 @@
 "use client";
-import {useParams} from "next/navigation";
 import {useState, useEffect} from "react";
+import {useSearchParams} from "next/navigation";
 import HeaderDetail from "@/components/header/HeaderDetail";
 import ClientInputForm from "@/components/clientDetail/ClientInputForm";
 import InvoiceTemplate from "@/components/clientDetail/InvoiceTemplate";
@@ -25,26 +25,13 @@ interface InvoiceData {
 
 const ClientDetailPage = () => {
   const currentYear = new Date().getFullYear().toString();
-  const params = useParams();
-  const clientName = decodeURIComponent((params.name as string) || "").replace(/-/g, " ");
-  const [invoiceNumber, setInvoiceNumber] = useState(clientName + "-"); // 변경된 코드
+  const searchParams = useSearchParams();
 
-  // getLatestInvoiceByClientId 함수로 최신 invoiceId를 가져온다.
-  // 최신 invoiceId에 +1 하여 invoiceNumber로 설정한다.
-  // getLatestInvoiceByClientId 받아오는 함수
-  const getInvoiceId = async (clientId: number) => {
-    try {
-      const data = await getLatestInvoiceByClientId(clientId);
-      console.log("latestInvoiceId", data.latestInvoice.id);
-    } catch (error) {
-      console.error(`Failed to fetch latest invoice ID for client with ID ${clientId}:`, error);
-      throw error;
-    }
-  }
+  // clientId가 없거나 NaN이면 기본값 1로 설정
+  const clientId = Number(searchParams.get("id")) || 1;
+  const clientName = searchParams.get("name") || "";
 
-  // 영수증 페이지로 이동 시 Client ID를 받아와야 한다
-  getInvoiceId(1);
-
+  // invoiceData 상태 정의
   const [invoiceData, setInvoiceData] = useState<InvoiceData>({
     invoiceNumber: "",
     year: currentYear,
@@ -55,7 +42,45 @@ const ClientDetailPage = () => {
     note: "",
   });
 
-  const [isUpdated, setIsUpdated] = useState(false); // 추가된 상태
+  const [isUpdated, setIsUpdated] = useState(false);
+
+
+  /**
+   * 최신 인보이스 정보 가져와서 invoiceNumber 생성
+   * @param clientId - 거래처 ID
+   */
+  const getInvoiceId = async (clientId: number) => {
+    try {
+      const data = await getLatestInvoiceByClientId(clientId);
+      console.log("API 응답 데이터:", data); // 디버깅용 로그
+
+      const latestInvoice = data?.latestInvoice;
+
+      if (!latestInvoice) {
+        console.warn(`latestInvoice가 없습니다. 기본값 설정: ${clientId}-1`);
+        setInvoiceData((prev) => ({...prev, invoiceNumber: `${clientId}-1`}));
+        return;
+      }
+
+      // 기존 invoiceNumber가 있다면 숫자 부분을 추출 후 +1
+      const latestInvoiceNumber = latestInvoice.invoiceNumber || `${clientId}-0`;
+      const match = latestInvoiceNumber.match(/(\d+)$/);
+      const nextInvoiceNumber = match
+        ? `${clientId}-${(parseInt(match[1], 10) + 1).toString().padStart(match[1].length, "0")}`
+        : `${clientId}-1`;
+
+      setInvoiceData((prev) => ({...prev, invoiceNumber: nextInvoiceNumber}));
+    } catch (error) {
+      console.error(`Failed to fetch latest invoice for client ${clientId}:`, error);
+      setInvoiceData((prev) => ({...prev, invoiceNumber: `${clientId}-1`}));
+    }
+  };
+
+  // clientId가 변경될 때만 실행
+  useEffect(() => {
+    if (clientId) getInvoiceId(clientId);
+  }, [clientId]);
+
 
   return (
     <>

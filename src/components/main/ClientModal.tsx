@@ -118,7 +118,7 @@ export default function ClientRegisterModal({
           <div className="modal-footer">
             <button className="default primary" onClick={handleSubmit}>
               <FontAwesomeIcon icon={faCheck} className="icon"/>
-              {initialData ? "수정 완료" : "등록"}
+              {initialData ? "수정하기" : "등록하기"}
             </button>
           </div>
         </div>

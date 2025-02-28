@@ -1,5 +1,5 @@
 "use client";
-import React, {useState} from "react";
+import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAppleWhole, faPlus, faArrowUpRightFromSquare} from "@fortawesome/free-solid-svg-icons";
 
@@ -39,7 +39,7 @@ const fruitCategories: Record<string, string[]> = {
   오렌지: ["오렌지", "오렌지(56)", "오렌지(72)"],
   키위: ["키위(그린키위)", "키위(골드키위)"],
   바나나: ["바나나", "바나나(6)", "바나나(9)"],
-  수입: ["레몬", "석류", "아보카도", "자몽", "파인애플", "파인(골드)", "망고", "애플망고"],
+  수입: ["레몬", "석류", "아보카도", "자몽", "파인애플", "골드파인", "망고", "애플망고"],
   기타: ["무화과", "체리", "블루베리", "멜론", "멜론(3)", "멜론(4)", "용과"],
 };
 
@@ -100,32 +100,10 @@ const convertToKoreanCurrency = (num: number): string => {
 
 
 const ClientInputForm = ({invoiceData, setInvoiceData, setIsUpdated}: ClientInputFormProps) => {
-  // const currentYear = new Date().getFullYear().toString()
   const today = new Date();
   const currentYear = today.getFullYear().toString();
   const currentMonth = (today.getMonth() + 1).toString().padStart(2, "0");
   const currentDay = today.getDate().toString().padStart(2, "0");
-  const numbering = invoiceData.invoiceNumber;
-
-  // 초기 항목 리스트 (5개 항목을 빈 값으로 생성)
-  const initialItems = Array.from({length: 5}, () => ({
-    name: "",
-    quantity: "",
-    price: "",
-    total: "",
-  }));
-
-  // 폼 데이터 상태
-  const [formData, setFormData] = useState<InvoiceData>({
-    invoiceNumber: "INVOICE-"+numbering,
-    year: currentYear,
-    month: currentMonth,
-    day: currentDay,
-    items: initialItems,
-    payment: "",
-    note: "",
-  });
-
   // 확인 여부 상태 (제출 후 true)
   const [isConfirmed, setIsConfirmed] = useState(false);
 
@@ -135,9 +113,30 @@ const ClientInputForm = ({invoiceData, setInvoiceData, setIsUpdated}: ClientInpu
   // 과일 선택 모달 표시 여부
   const [showFruitOptions, setShowFruitOptions] = useState(false);
 
-  // 입력값 에러 상태 (항목별 유효성 검사)
+  // 폼 데이터 상태 (부모 데이터 반영)
+  const [formData, setFormData] = useState<InvoiceData>({
+    invoiceNumber: `INVOICE-${invoiceData.invoiceNumber}`,
+    year: currentYear,
+    month: currentMonth,
+    day: currentDay,
+    items: Array.from({length: 5}, () => ({name: "", quantity: "", price: "", total: ""})),
+    payment: "",
+    note: "",
+  });
+
+  // `invoiceData.invoiceNumber` 변경 시 formData 반영
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      invoiceNumber: invoiceData.invoiceNumber.startsWith("INVOICE-")
+        ? invoiceData.invoiceNumber
+        : `INVOICE-${invoiceData.invoiceNumber}`,
+    }));
+  }, [invoiceData.invoiceNumber]);
+
+  // 입력값 에러 상태
   const [errors, setErrors] = useState<{ items: boolean[]; month: boolean; day: boolean }>({
-    items: new Array(initialItems.length).fill(false),
+    items: new Array(5).fill(false),
     month: false,
     day: false,
   });
