@@ -35,7 +35,7 @@ const ClientDetailPage = () => {
   const getInvoiceId = async (clientId: number) => {
     try {
       const data = await getLatestInvoiceByClientId(clientId);
-      console.log("latestInvoiceId", data.latestInvoice.id);
+      console.log("latestInvoiceId", data);
     } catch (error) {
       console.error(`Failed to fetch latest invoice ID for client with ID ${clientId}:`, error);
       throw error;
