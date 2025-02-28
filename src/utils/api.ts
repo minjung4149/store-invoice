@@ -156,7 +156,7 @@ export const getAllClientsWithLatestInvoice = async () => {
 // 거래 내역 보기에서 리스트 클릭시 해당 거래 내역을 호출하는 api
 export const getInvoiceById = async (invoiceId: number) => {
   try {
-    const response = await fetch(`/api/invoices?id=${invoiceId}`);
+    const response = await fetch(`/api/invoice/findById?id=${invoiceId}`);
     if (!response.ok) throw new Error(`Error: ${response.statusText}`);
     return await response.json();
   } catch (error) {
@@ -191,6 +191,8 @@ export const getLatestInvoiceByClientId = async (clientId: number) => {
   }
 };
 
+// 선택한 계산서 기준으로 바로 전 계산서 데이터 호출 api 추가해야한다
+
 
 // 확정하기 버튼 클릭 시 invoice를 생성하는 api
 //  getLatestInvoiceByClientId 로 가져온 invoice.balance + payment 값으로 balance 저장
@@ -206,7 +208,44 @@ export const getLatestInvoiceByClientId = async (clientId: number) => {
 //   ]
 // }
 
-export const createInvoice = async (invoiceData: {
+export interface InvoiceDetail {
+  name: string; // 상품명
+  quantity: number; // 수량
+  price: number; // 단가
+}
+
+export interface InvoiceRequest {
+  no: number; // 영수증번호
+  clientId: number; // 거래처 ID
+  balance: number; // 잔금
+  payment: number; // 입금
+  details: InvoiceDetail[]; // 상품 목록
+}
+
+export const createInvoice = async (invoiceData: InvoiceRequest) => {
+  try {
+    const response = await fetch('/api/invoice/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(invoiceData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Failed to create invoice:', error);
+    throw error;
+  }
+};
+
+
+// update Invoice API
+export const updateInvoice = async (invoiceData: {
   clientId: number;
   title: string;
   amount: number;
