@@ -2,6 +2,8 @@
 import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleCheck, faPrint} from "@fortawesome/free-solid-svg-icons";
+import {createInvoice} from "@/utils/api";
+import { useSearchParams } from "next/navigation";
 
 
 interface InvoiceItem {
@@ -48,13 +50,14 @@ const InvoiceTemplate = ({invoiceData, clientName, isUpdated}: InvoiceTemplatePr
     totalAmount - (parseInt(invoiceData.payment.replace(/,/g, ""), 10) || 0);
 
   // 서버로 데이터 전송
+
   const handleConfirm = async () => {
     if (!isUpdated) {
       alert("먼저 반영하기 버튼을 눌러주세요.");
       return;
     }
 
-    console.log("확정 시 서버로 값 전송");
+
     setIsConfirmed(true);
     alert("확정 처리되었습니다.");
   };
@@ -142,7 +145,7 @@ const InvoiceTemplate = ({invoiceData, clientName, isUpdated}: InvoiceTemplatePr
           <hr className="divider"/>
           <p>
             {/* Client의 balance */}
-            <span>전잔금:</span> 
+            <span>전잔금:</span>
             <span className="summary-value">{previousBalance.toLocaleString()} 원</span>
           </p>
           <hr className="divider"/>
