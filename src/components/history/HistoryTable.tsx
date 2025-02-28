@@ -47,9 +47,9 @@ const HistoryTable: React.FC<HistoryTableProps> = ({onSelectOrder}) => {
   }
   useEffect(() => {
     getInvoices(1).then((invoices) => {         
-      invoices.forEach((invoice: OrderData) => {
-        data.push({id: invoice.id, no: invoice.no, date: invoice.date, total: invoice.total, balance: invoice.balance});
-      }); 
+      // invoices.forEach((invoice: OrderData) => {
+      //   data.push({id: invoice.id, no: invoice.no, date: invoice.date, total: invoice.total, balance: invoice.balance});
+      // }); 
       console.log("INVOICE", data);
       setVisibleData(data.slice(0, loadedItems + itemsPerPage));
     });
