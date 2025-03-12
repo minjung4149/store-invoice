@@ -16,6 +16,7 @@ export default function GlobalError({
   return (
     <div style={{textAlign: "center", marginTop: "50px"}}>
       <h2>🚨 오류 발생: {error.message}</h2>
+      {/* ✅ `reset` 함수를 콜백으로 감싸서 안전하게 처리 */}
       <button onClick={() => reset()}>다시 시도</button>
     </div>
   );
