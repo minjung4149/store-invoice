@@ -1,6 +1,6 @@
 import React from "react";
 import '@/styles/style.scss';
-import GlobalError from "./global-error"; // error.tsx 강제 import
+import GlobalError from "./error"; // error.tsx 강제 import
 import NotFoundPage from "./not-found"; // not-found.tsx 강제 import
 
 export default function RootLayout({children}: { children: React.ReactNode }) {
