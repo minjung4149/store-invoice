@@ -1,7 +1,9 @@
 "use client";
-import React, {useState, useEffect, useRef} from "react";
+
+import React, {useState, useEffect, useRef, useReducer} from "react";
 import {getInvoicesByClientId} from "@/utils/api";
 
+// 주문 데이터 타입 정의
 interface OrderData {
   id: number;
   no: number;
@@ -10,85 +12,113 @@ interface OrderData {
   balance: string;
 }
 
-interface HistoryTableProps {
-  onSelectOrder: (order: OrderData) => void; // 선택된 주문을 부모 컴포넌트로 전달
+// 리듀서의 상태 및 액션 타입 정의
+interface State {
+  visibleData: OrderData[];
+  loadedItems: number;
 }
 
-// getInvoicesByClientId 함수를 사용하여 해당 거래처의 주문 내역을 가져옴
+type Action = { type: "LOAD_MORE" };
+
+interface HistoryTableProps {
+  onSelectOrder: (order: OrderData) => void;
+}
+
 const HistoryTable: React.FC<HistoryTableProps> = ({onSelectOrder}) => {
-  const data: OrderData[] = [
-    {id: 3, no: 3, date: "2025-02-10 (수)", total: "150000", balance: "30000"},
-    {id: 2, no: 2, date: "2025-02-10 (목)", total: "150000", balance: "30000"}
-  ];
-
-  // const data: OrderData[] = [];
-
   const itemsPerPage = 10;
-  // 현재 화면에 표시할 데이터 상태
 
-  const [visibleData, setVisibleData] = useState(data.slice(0, itemsPerPage));
-
-  // 현재까지 로드된 항목 개수
-  const [loadedItems, setLoadedItems] = useState(itemsPerPage);
-
-  // Intersection Observer를 사용할 요소 참조
+  // 동적으로 주문 데이터를 관리
+  const [data, setData] = useState<OrderData[]>([]);
   const observerRef = useRef<HTMLDivElement | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<OrderData | null>(null);
 
-  // 기본 선택된 주문 (가장 최근 데이터)
-  const [selectedOrder, setSelectedOrder] = useState<OrderData>(data[0]);
+  // useReducer로 visibleData & loadedItems 상태 관리
+  const reducer = (state: State, action: Action): State => {
+    switch (action.type) {
+      case "LOAD_MORE":
+        return {
+          visibleData: data.slice(0, state.loadedItems + itemsPerPage),
+          loadedItems: state.loadedItems + itemsPerPage,
+        };
+      default:
+        return state;
+    }
+  };
 
+  // useReducer 초기 상태 설정
+  const [state, dispatch] = useReducer(reducer, {
+    visibleData: [],
+    loadedItems: itemsPerPage,
+  });
+
+  // 주문 내역을 서버에서 가져오는 함수
   const getInvoices = async (id: number) => {
     try {
       const clientInvoice = await getInvoicesByClientId(id);
-      return clientInvoice.invoices;
+      setData((prevData) => [
+        ...prevData,
+        ...clientInvoice.invoices.map((invoice: OrderData) => ({
+          id: invoice.id,
+          no: invoice.no,
+          date: invoice.date,
+          total: invoice.total,
+          balance: invoice.balance,
+        })),
+      ]);
     } catch (error) {
       console.error("Failed to fetch invoices:", error);
     }
-  }
+  };
+
+  // 최초 실행 시 데이터 가져오기
   useEffect(() => {
-    getInvoices(1).then((invoices) => {         
-      invoices.forEach((invoice: OrderData) => {
-        data.push({id: invoice.id, no: invoice.no, date: invoice.date, total: invoice.total, balance: invoice.balance});
-      }); 
-      console.log("INVOICE", data);
-      setVisibleData(data.slice(0, loadedItems + itemsPerPage));
-    });
+    getInvoices(1);
   }, []);
 
+  // 🔹 data가 변경될 때 visibleData 업데이트
   useEffect(() => {
-    // Intersection Observer 인스턴스 생성
+    if (data.length > 0) {
+      dispatch({type: "LOAD_MORE"});
+    }
+  }, [data]);
+
+  // selectedOrder 기본값 설정 (초기 렌더 시 첫 번째 주문 자동 선택)
+  useEffect(() => {
+    if (data.length > 0 && !selectedOrder) {
+      setSelectedOrder(data[0]);
+    }
+  }, [data, selectedOrder]);
+
+  // Intersection Observer 설정 (무한 스크롤)
+  useEffect(() => {
+    if (!observerRef.current) return;
+
+    const target = observerRef.current;
+
     const observer = new IntersectionObserver(
       (entries) => {
-        const target = entries[0];       
-
-        // 화면에 감지된 요소가 보이고, 아직 로드되지 않은 데이터가 남아있다면 추가 로드
-        if (target.isIntersecting && loadedItems < data.length) {
+        if (entries[0].isIntersecting && state.loadedItems < data.length) {
           setTimeout(() => {
-            setVisibleData(data.slice(0, loadedItems + itemsPerPage));  // 기존 데이터 + 추가 로드
-            setLoadedItems((prev) => prev + itemsPerPage); // 로드된 개수 업데이트
+            dispatch({type: "LOAD_MORE"});
           }, 500);
         }
       },
       {threshold: 1.0}
     );
 
-    // observer가 감지할 요소를 설정
-    if (observerRef.current) observer.observe(observerRef.current);
+    observer.observe(target);
 
-    return () => {
-      // 컴포넌트 언마운트 시 observer 해제
-      if (observerRef.current) observer.unobserve(observerRef.current);
-    };
-  }, [loadedItems, data.length]);  // loadedItems, data.length 변경 시 다시 실행
+    return () => observer.disconnect();
+  }, [state.loadedItems, data.length]);
 
+  // 주문 항목 클릭 시 실행
   const handleRowClick = (order: OrderData) => {
     setSelectedOrder(order);
-    onSelectOrder(order); // 부모 컴포넌트에 선택된 데이터 전달
+    onSelectOrder(order);
   };
 
   return (
     <div className="table-container">
-      {/* 주문 내역 테이블 */}
       <table className="order-table">
         <thead>
         <tr>
@@ -100,10 +130,10 @@ const HistoryTable: React.FC<HistoryTableProps> = ({onSelectOrder}) => {
         </tr>
         </thead>
         <tbody>
-        {data.length > 0 && visibleData.map((order) => (
+        {state.visibleData.map((order: OrderData) => ( // `order`의 타입 명시
           <tr
             key={order.no}
-            className={selectedOrder.no === order.no ? "selected-row" : ""}
+            className={selectedOrder?.no === order.no ? "selected-row" : ""}
             onClick={() => handleRowClick(order)}
           >
             <td className="no">{order.no}</td>

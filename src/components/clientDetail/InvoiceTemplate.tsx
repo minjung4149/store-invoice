@@ -2,9 +2,6 @@
 import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleCheck, faPrint} from "@fortawesome/free-solid-svg-icons";
-import {createInvoice} from "@/utils/api";
-import { useSearchParams } from "next/navigation";
-
 
 interface InvoiceItem {
   name: string;

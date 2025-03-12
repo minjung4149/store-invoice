@@ -25,22 +25,24 @@ const HistoryTemplate: React.FC<HistoryTemplateProps> = ({selectedOrder}) => {
           <th className="total">금액</th>
         </tr>
         </thead>
-        <tbody>
-        <tr>
-          <td className="no">1</td>
-          <td className="name">사과</td>
-          <td className="quantity">2</td>
-          <td className="price">50,000</td>
-          <td className="total">100,000</td>
-        </tr>
-        <tr>
-          <td className="no">2</td>
-          <td className="name">오렌지</td>
-          <td className="quantity">5</td>
-          <td className="price">40,000</td>
-          <td className="total">200,000</td>
-        </tr>
-        </tbody>
+        {selectedOrder && (
+          <tbody>
+          <tr>
+            <td className="no">1</td>
+            <td className="name">사과</td>
+            <td className="quantity">2</td>
+            <td className="price">50,000</td>
+            <td className="total">100,000</td>
+          </tr>
+          <tr>
+            <td className="no">2</td>
+            <td className="name">오렌지</td>
+            <td className="quantity">5</td>
+            <td className="price">40,000</td>
+            <td className="total">200,000</td>
+          </tr>
+          </tbody>
+        )}
       </table>
 
       {/* 구분선 */}

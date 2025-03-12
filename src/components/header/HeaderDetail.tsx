@@ -3,6 +3,8 @@ import Link from "next/link";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHouse, faBars, faPen} from "@fortawesome/free-solid-svg-icons";
 import {usePathname} from "next/navigation";
+import Image from "next/image";
+
 
 interface HeaderDetailProps {
   clientName: string;
@@ -19,7 +21,7 @@ const HeaderDetail = ({clientName}: HeaderDetailProps) => {
       <div className="container">
         <div className="header_wrapper">
           <h2><span>
-            <img src="/images/mango.png" alt="과일"/>
+            <Image src="/images/mango.png" alt="과일" width={42} height={42} priority/>
           </span>{clientName}</h2>
 
           <div className="btn-area">

@@ -1,6 +1,7 @@
 "use client";
 import {useState} from "react";
 import Link from "next/link";
+import Image from "next/image";
 import ClientRegisterModal from "@/components/main/ClientModal";
 import {updateClient, updateFavorite} from '@/utils/api';
 
@@ -71,14 +72,16 @@ export default function ClientList({clients, refreshClients}: ClientListProps) {
             <div className="client-action">
               {/* 수정 */}
               <button onClick={() => handleEditClick(client)}>
-                <img src="/images/edit.png" alt="수정"/>
+                <Image src="/images/edit.png" alt="수정" width={24} height={24}/>
               </button>
 
               {/* 즐겨찾기 */}
               <button onClick={() => toggleFavorite(client.id ?? 0, client.isFavorite)}>
-                <img
+                <Image
                   src={client.isFavorite ? "/images/favorite-on.png" : "/images/favorite-off.png"}
                   alt="즐겨찾기"
+                  width={24}
+                  height={24}
                 />
               </button>
             </div>
