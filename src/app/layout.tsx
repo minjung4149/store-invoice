@@ -1,5 +1,7 @@
 import React from "react";
 import '@/styles/style.scss';
+import GlobalError from "./global-error"; // error.tsx 강제 import
+import NotFoundPage from "./not-found"; // not-found.tsx 강제 import
 
 export default function RootLayout({children}: { children: React.ReactNode }) {
   console.log("✅ [layout.tsx] RootLayout 실행됨");
@@ -16,6 +18,10 @@ export default function RootLayout({children}: { children: React.ReactNode }) {
     </head>
     <body className="site">
     {children}
+    {/* Next.js가 `error.tsx`를 감지하도록 강제 실행 */}
+    <GlobalError error={new Error("Test Error")} reset={() => {
+    }}/>
+    <NotFoundPage/>
     </body>
     </html>
   );
