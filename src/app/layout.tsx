@@ -2,7 +2,7 @@ import React from "react";
 import '@/styles/style.scss';
 
 export default function RootLayout({children}: { children: React.ReactNode }) {
-
+  console.log("✅ [layout.tsx] RootLayout 실행됨");
   return (
     <html lang="ko">
     <head>
